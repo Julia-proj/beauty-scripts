@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Скрипты — сообщения в деньги</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#C14A2C;       /* кирпично-оранжевый */
+      --primary-dark:#9E3A24;
+      --primary-light:#D96547;
+      --ink:#111;              /* чёрный для иконок */
+      --text:#1C1C1E;
+      --muted:#5F6368;
+      --bg:#ffffff;
+      --card:#ffffff;
+      --soft:#f7f8fa;
+      --border:#ececec;
+      --shadow:0 10px 40px rgba(0,0,0,.06);
+      --brand-grad: linear-gradient(135deg, #C14A2C, #D96547);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.7}
+    .container{max-width:1080px;margin:0 auto;padding:0 24px}
+    .section{padding:80px 0} /* больше "воздуха" */
+    p{color:#333}
+
+    /* Language switcher */
+    .language-switcher{position:fixed; top:20px; right:20px; z-index:1000; display:flex; gap:10px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:10px 12px; box-shadow:0 8px 30px rgba(0,0,0,.08)}
+    .lang-btn{border:none;background:transparent;padding:8px 14px;border-radius:999px;font-weight:800;color:#555;cursor:pointer;letter-spacing:.02em}
+    .lang-btn.active{background:var(--primary); color:#fff}
+
+    /* HERO (тёмная только шапка) */
+    .hero{position:relative; color:#fff; text-align:center; padding:140px 0 110px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.68), rgba(0,0,0,.55)),
+        url("/images/hero.jpg") center/cover no-repeat;
+    }
+    .hero h1{font-weight:800; font-size:clamp(34px,5.4vw,60px); line-height:1.12; letter-spacing:-.01em; text-wrap:balance; margin-bottom:14px}
+    .hero .accent{color:#ff704d}
+    .hero .subtitle{max-width:780px;margin:18px auto 34px; font-size:18px; opacity:.95}
+    .cta-row{display:flex; justify-content:center; gap:12px; flex-wrap:wrap}
+    .cta{display:inline-block; padding:16px 26px; border-radius:14px; font-weight:800; text-decoration:none; transition:.18s ease}
+    .cta-primary{background:var(--brand-grad); color:#fff; box-shadow:0 12px 28px rgba(193,74,44,.24)}
+    .cta-primary:hover{transform:translateY(-2px); filter:saturate(1.03)}
+    .cta-secondary{color:#fff; border:2px solid rgba(255,255,255,.92)}
+    .cta-secondary:hover{background:#fff; color:#111}
+
+    /* Section shells */
+    .section-white{background:#fff; border:1px solid var(--border); border-radius:20px; box-shadow:var(--shadow); margin:40px 0}
+    .section-white .inner{padding:56px 48px} /* больше отступов внутри */
+    h2{font-size:32px; text-align:center; font-weight:800; margin-bottom:18px; letter-spacing:-.01em}
+    h2 .accent{color:var(--primary)}
+    .text-large{font-size:18px; color:#4a4a4a; text-align:center; max-width:680px; margin:0 auto 34px}
+
+    /* Animation (Mila-like) */
+    .fade-in{opacity:0; transform:translateY(6px); transition:opacity .55s ease, transform .55s ease}
+    .fade-in.visible{opacity:1; transform:translateY(0)}
+    .fade-in-delay{transition-delay:.12s}
+    .fade-in-delay-2{transition-delay:.24s}
+    .fade-in-delay-3{transition-delay:.36s}
+
+    /* Highlights (Anna-like) */
+    .highlight-bg{background:linear-gradient(100deg, rgba(193,74,44,.12), rgba(217,101,71,.18)); padding:2px 8px; border-radius:8px; display:inline-block}
+    .highlight-underline{background:linear-gradient(transparent 60%, rgba(193,74,44,.25) 60%); padding:0 2px}
+
+    /* Grids — больше воздуха между карточками */
+    .grid{display:grid; gap:28px}
+    .pain-grid,.benefits-grid,.who-grid,.pricing{display:grid; gap:28px; grid-template-columns:1fr 1fr}
+
+    .card{background:#fff; border:1px solid var(--border); border-radius:16px; padding:26px; transition:.18s; box-shadow:0 10px 30px rgba(0,0,0,.05)}
+    .card:hover{transform:translateY(-3px); box-shadow:var(--shadow)}
+
+    /* Icon system: one consistent look */
+    svg{shape-rendering:geometricPrecision}
+    .icon{width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:#f3f4f6;border:1px solid var(--border)}
+    .icon svg{width:26px;height:26px;stroke:var(--ink);stroke-width:2;fill:none}
+    .who-icon{width:68px;height:68px;border-radius:50%;background:#f7f8fa;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+    .who-icon svg{width:30px;height:30px;stroke:var(--ink);stroke-width:2;fill:none}
+
+    /* Bonus */
+    .bonus{background:var(--brand-grad); color:#fff; border-radius:20px; padding:36px; text-align:center}
+    .bonus .title{font-size:24px; font-weight:800; margin-bottom:14px}
+    .bonus-list{max-width:720px; margin:0 auto; text-align:left}
+    .bonus-item{display:grid; grid-template-columns:28px 1fr; gap:12px; align-items:flex-start; background:rgba(255,255,255,.10); padding:14px; border-radius:12px; margin-bottom:12px}
+    .bonus-item svg{width:22px;height:22px;stroke:#fff;stroke-width:2;fill:none}
+    .bonus-cta{margin-top:8px;font-weight:700}
+
+    /* Pricing */
+    .pricing{grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); align-items:stretch}
+    .price-card{position:relative; min-height:260px}
+    .price-badge{position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--primary); color:#fff; padding:6px 12px; border-radius:12px; font-size:12px; font-weight:800}
+    .price{font-size:36px; font-weight:800; margin:12px 0}
+    .price .accent{color:var(--primary)}
+    .price-desc{color:#666; font-size:15px; margin-bottom:16px}
+    .btn-buy{display:inline-block;width:100%;padding:14px 18px;border-radius:14px;background:var(--brand-grad);color:#fff;text-decoration:none;font-weight:800}
+    .btn-buy:hover{filter:saturate(1.03); transform:translateY(-2px)}
+
+    .urgency{background:#fff3cd;border:1px solid #ffeaa7;border-radius:12px;padding:16px;text-align:center;color:#856404}
+
+    .final-cta{background:#111; color:#fff; border-radius:20px}
+    .final-cta .inner{padding:56px 24px; text-align:center}
+    .final-cta h2{color:#fff; margin-bottom:12px}
+    .accent-inline{color:#ff704d}
+
+    .footer{color:#666; text-align:center; padding:44px 0; font-size:14px}
+
+    /* Languages */
+    .lang-section{display:none}
+    .lang-section.active{display:block}
+
+    /* Mobile: one column + comfortable air */
+    @media (max-width:768px){
+      .section{padding:56px 0}
+      .section-white .inner{padding:34px 22px}
+      .pain-grid,.benefits-grid,.who-grid,.pricing{grid-template-columns:1fr; gap:20px}
+      .hero{padding:120px 0 110px}
+      .cta{display:block; width:100%; max-width:340px; margin:8px auto 0}
+      .language-switcher{top:12px; right:12px}
+    }
+  </style>
+</head>
+<body>
+  <!-- SVG sprite (Heroicons/Lucide-like minimal set) -->
+  <svg width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true">
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <circle cx="12" cy="7" r="4"></circle>
+      <path d="M4 21c0-4 4-7 8-7s8 3 8 7"></path>
+    </symbol>
+    <symbol id="i-building" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="8" height="18" rx="1"></rect>
+      <rect x="13" y="8" width="8" height="13" rx="1"></rect>
+      <path d="M7 7h0M7 11h0M7 15h0M17 11h0M17 14h0M17 17h0" stroke-linecap="round"></path>
+    </symbol>
+    <symbol id="i-door" viewBox="0 0 24 24">
+      <path d="M6 3h11a1 1 0 0 1 1 1v16"></path>
+      <path d="M6 3v18"></path>
+      <path d="M6 21h12"></path>
+      <path d="M14 12h0"></path>
+    </symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24">
+      <path d="M21 12a7 7 0 0 1-7 7H7l-4 4V9a7 7 0 0 1 7-7h4a7 7 0 0 1 7 7Z"></path>
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M12 7v5l3 2"></path>
+    </symbol>
+    <symbol id="i-card" viewBox="0 0 24 24">
+      <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+      <path d="M2 10h20"></path>
+    </symbol>
+    <symbol id="i-list" viewBox="0 0 24 24">
+      <path d="M8 6h12M8 12h12M8 18h12"></path>
+      <path d="M4 6h0M4 12h0M4 18h0" stroke-linecap="round"></path>
+    </symbol>
+    <symbol id="i-rocket" viewBox="0 0 24 24">
+      <path d="M5 15c-1 3-1 4-1 4s1 0 4-1l11-11a4 4 0 0 0-6-6L5 15Z"></path>
+      <path d="M4 20l4-4"></path>
+    </symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M3 12h18"></path>
+      <path d="M12 3a15 15 0 0 1 0 18"></path>
+      <path d="M12 3a15 15 0 0 0 0 18"></path>
+    </symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24">
+      <rect x="7" y="4" width="10" height="16" rx="2"></rect>
+      <path d="M9 4h6v2H9z"></path>
+    </symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24">
+      <path d="M21 12a9 9 0 1 1-2.64-6.36"></path>
+      <path d="M21 5v6h-6"></path>
+    </symbol>
+    <symbol id="i-book" viewBox="0 0 24 24">
+      <path d="M4 19a2 2 0 0 0 2 2h12"></path>
+      <path d="M20 22V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v16"></path>
+      <path d="M8 6h8"></path>
+    </symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24">
+      <rect x="3" y="7" width="18" height="12" rx="2"></rect>
+      <path d="M12 7V3"></path>
+      <path d="M7 7c0-2 2-3 5-3s5 1 5 3"></path>
+    </symbol>
+    <symbol id="i-checklist" viewBox="0 0 24 24">
+      <path d="M8 6h8M8 10h8M8 14h8M8 18h8"></path>
+      <path d="M4 5h0M4 9h0M4 13h0M4 17h0" stroke-linecap="round"></path>
+    </symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24">
+      <path d="M3 3h18v14H3z"></path>
+      <path d="M7 21h10"></path>
+      <path d="M12 17v4"></path>
+    </symbol>
+  </svg>
+
+  <div class="language-switcher" role="tablist" aria-label="Language switch">
+    <button class="lang-btn active" data-lang="ru" role="tab" aria-selected="true">RU</button>
+    <button class="lang-btn" data-lang="en" role="tab" aria-selected="false">EN</button>
+    <button class="lang-btn" data-lang="es" role="tab" aria-selected="false">ES</button>
+  </div>
+
+  <!-- RU -->
+  <div id="lang-ru" class="lang-section active">
+    <section class="hero">
+      <div class="container">
+        <h1 class="fade-in">Скрипты, которые превращают <span class="accent">сообщения в деньги</span></h1>
+        <p class="subtitle fade-in fade-in-delay">Готовые диалоги: от первого сообщения до записи, апсейла и закрытия возражений. <span class="highlight-bg">Практично. Чётко. Без «воды».</span> Результат — <span class="highlight-underline">больше записей и выше средний чек</span>.</p>
+        <div class="cta-row fade-in fade-in-delay-2">
+          <a class="cta cta-primary" href="#" data-pay="19">Купить за 19€</a>
+          <a class="cta cta-secondary" href="#" data-pay="full">Полный пакет + 3 бонуса — 39€</a>
+        </div>
+        <p class="fade-in fade-in-delay-3" style="opacity:.85;margin-top:16px;font-size:14px">Apple Pay и Google Pay работают автоматически</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-white"><div class="inner">
+          <h2 class="fade-in">Почему это <span class="accent">важно</span></h2>
+          <p class="text-large fade-in fade-in-delay">Каждая вторая заявка теряется не из-за цены, а <span class="highlight-underline">из-за отсутствия чёткого алгоритма ответа</span>.</p>
+          <div class="pain-grid">
+            <div class="card fade-in">
+              <div class="icon" aria-hidden="true"><svg><use href="#i-door"/></svg></div>
+              <h3>Заявки уходят к конкуренту</h3><p>Нет <b>чёткого ответа</b> — клиент уходит.</p>
+            </div>
+            <div class="card fade-in fade-in-delay">
+              <div class="icon" aria-hidden="true"><svg><use href="#i-chat"/></svg></div>
+              <h3>Теряешься в переписке</h3><p>На «я подумаю/спасибо» <b>нет следующего шага</b>.</p>
+            </div>
+            <div class="card fade-in fade-in-delay-2">
+              <div class="icon" aria-hidden="true"><svg><use href="#i-clock"/></svg></div>
+              <h3>Пустая трата времени</h3><p>Треды тянутся, клиенты остывают.</p>
+            </div>
+            <div class="card fade-in fade-in-delay-3">
+              <div class="icon" aria-hidden="true"><svg><use href="#i-card"/></svg></div>
+              <h3>Выручка не растёт</h3><p>Без скриптов лиды <b>не доходят до оплаты</b>.</p>
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-white"><div class="inner">
+          <h2 class="fade-in">Для кого эти <span class="accent">скрипты</span></h2>
+          <div class="who-grid">
+            <div class="who-category fade-in">
+              <div class="who-icon" aria-hidden="true"><svg><use href="#i-user"/></svg></div>
+              <h3>Если работаешь одна</h3>
+              <ul>
+                <li>Маникюр / педикюр</li><li>Брови / ресницы</li><li>Волосы (окрашивание, уходы)</li>
+                <li>Косметология</li><li>Перманентный макияж</li><li>Массаж</li>
+              </ul>
+            </div>
+            <div class="who-category fade-in fade-in-delay">
+              <div class="who-icon" aria-hidden="true"><svg><use href="#i-building"/></svg></div>
+              <h3>Если у тебя салон/клиника</h3>
+              <ul>
+                <li>Администраторы отвечают по-разному</li>
+                <li>Мастера теряют лиды</li>
+                <li>Нет единых стандартов</li>
+                <li>Важно контролировать диалоги</li>
+              </ul>
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-white"><div class="inner">
+          <h2 class="fade-in">Что <span class="accent">получишь</span></h2>
+          <div class="benefits-grid">
+            <div class="card fade-in"><div class="icon" aria-hidden="true"><svg><use href="#i-list"/></svg></div><h3>Скрипты на всё</h3><p>От «привет» до оплаты. Возражения, молчуны, «старые» заявки.</p></div>
+            <div class="card fade-in fade-in-delay"><div class="icon" aria-hidden="true"><svg><use href="#i-rocket"/></svg></div><h3>Ответы на возражения</h3><p>«Дорого», «далеко», «подумаю» — готовые фразы.</p></div>
+            <div class="card fade-in fade-in-delay-2"><div class="icon" aria-hidden="true"><svg><use href="#i-globe"/></svg></div><h3>Под услуги</h3><p>Ногти, брови, волосы, косметология — копируй и вставляй.</p></div>
+            <div class="card fade-in"><div class="icon" aria-hidden="true"><svg><use href="#i-clipboard"/></svg></div><h3>Молчуны</h3><p>Как мягко вернуть тех, кто читает, но не отвечает.</p></div>
+            <div class="card fade-in fade-in-delay"><div class="icon" aria-hidden="true"><svg><use href="#i-refresh"/></svg></div><h3>Реанимация тредов</h3><p>Из «мёртвых» переписок — в запись.</p></div>
+            <div class="card fade-in fade-in-delay-2"><div class="icon" aria-hidden="true"><svg><use href="#i-book"/></svg></div><h3>Гайд по внедрению</h3><p>Пошагово за 24 часа.</p></div>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="bonus fade-in">
+          <div class="title">🎁 При покупке скриптов сейчас вы получаете 3 бонуса</div>
+          <div class="bonus-list">
+            <div class="bonus-item"><svg><use href="#i-gift"/></svg><div><b>Гайд 1: Работа с клиентской базой</b> — поток постоянных клиентов без рекламы.</div></div>
+            <div class="bonus-item"><svg><use href="#i-checklist"/></svg><div><b>Чек-лист: Платные и бесплатные источники трафика</b> — как генерировать лиды даже без бюджета.</div></div>
+            <div class="bonus-item"><svg><use href="#i-chart"/></svg><div><b>Гайд 2: 5 этапов продаж на консультации</b> — продаём мягко, без давления.</div></div>
+            <div class="bonus-cta"><b>Внедрите за 24 часа и перестаньте терять заявки.</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-white"><div class="inner">
+          <h2 class="fade-in">Выбери <span class="accent">пакет</span></h2>
+          <div class="pricing">
+            <div class="card price-card fade-in">
+              <h3>Универсальные скрипты</h3>
+              <div class="price"><span class="accent">19</span>€</div>
+              <p class="price-desc">Диалоги для любой ниши</p>
+              <a class="btn-buy" href="#" data-pay="19">Купить</a>
+            </div>
+            <div class="card price-card fade-in fade-in-delay" style="border-color:var(--primary); box-shadow:0 12px 26px rgba(193,74,44,.18)">
+              <div class="price-badge">Популярно</div>
+              <h3>Полный пакет + 3 бонуса</h3>
+              <div class="price"><span class="accent">39</span>€</div>
+              <p class="price-desc">Все скрипты + персонализация + 3 бонус-гайда</p>
+              <a class="btn-buy" href="#" data-pay="full">Купить полный пакет</a>
+            </div>
+            <div class="card price-card fade-in fade-in-delay-2">
+              <h3>Под конкретную услугу</h3>
+              <div class="price"><span class="accent">19</span>€</div>
+              <p class="price-desc">Скрипты для твоей услуги</p>
+              <a class="btn-buy" href="#" data-pay="19">Купить</a>
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container"><div class="urgency fade-in">⏰ 19€ только до конца недели. Потом 29€.</div></div>
+    </section>
+
+    <section class="section final-cta">
+      <div class="container"><div class="inner">
+        <h2 class="fade-in">Хватит терять <span class="accent-inline">деньги</span> из-за неправильных слов</h2>
+        <p class="fade-in fade-in-delay" style="opacity:.92">Внедри скрипты за 24 часа. <span class="highlight-bg">Начни зарабатывать больше уже завтра.</span></p>
+        <div class="cta-row fade-in fade-in-delay-2">
+          <a class="cta cta-primary" href="#" data-pay="19">Купить за 19€</a>
+          <a class="cta cta-secondary" href="#" data-pay="full">Полный пакет + 3 бонуса — 39€</a>
+        </div>
+      </div></div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p>Вопросы: <a href="mailto:you@example.com">you@example.com</a></p>
+        <p style="margin:10px 0"><a href="#">Политика</a> · <a href="#">Оферта</a></p>
+        <p>© 2025</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- EN -->
+  <div id="lang-en" class="lang-section">
+    <section class="hero"><div class="container">
+      <h1 class="fade-in">Scripts that turn <span class="accent">messages into money</span></h1>
+      <p class="subtitle fade-in fade-in-delay">Ready-made dialogues: from the first message to booking, upsell and objections. <span class="highlight-bg">Practical. Clear. No fluff.</span> Result — <span class="highlight-underline">more bookings & higher average ticket</span>.</p>
+      <div class="cta-row fade-in fade-in-delay-2">
+        <a class="cta cta-primary" href="#" data-pay="19">Buy for €19</a>
+        <a class="cta cta-secondary" href="#" data-pay="full">Full pack + 3 bonuses — €39</a>
+      </div>
+      <p class="fade-in fade-in-delay-3" style="opacity:.85;margin-top:16px;font-size:14px">Apple Pay and Google Pay work automatically</p>
+    </div></section>
+
+    <section class="section"><div class="container"><div class="section-white"><div class="inner">
+      <h2 class="fade-in">Why this <span class="accent">matters</span></h2>
+      <p class="text-large fade-in fade-in-delay">Half of inquiries are lost not because of price, but <span class="highlight-underline">due to no clear reply algorithm</span>.</p>
+      <div class="pain-grid">
+        <div class="card fade-in"><div class="icon" aria-hidden="true"><svg><use href="#i-door"/></svg></div><h3>Leads slip away</h3><p>No <b>clear answer</b> — they leave.</p></div>
+        <div class="card fade-in fade-in-delay"><div class="icon" aria-hidden="true"><svg><use href="#i-chat"/></svg></div><h3>You get lost in chat</h3><p>“I’ll think / thanks” — <b>no next step</b>.</p></div>
+        <div class="card fade-in fade-in-delay-2"><div class="icon" aria-hidden="true"><svg><use href="#i-clock"/></svg></div><h3>Wasted time</h3><p>Threads drag on, clients get cold.</p></div>
+        <div class="card fade-in fade-in-delay-3"><div class="icon" aria-hidden="true"><svg><use href="#i-card"/></svg></div><h3>Lost revenue</h3><p>Without scripts, leads <b>don’t convert</b>.</p></div>
+      </div>
+    </div></div></div></section>
+
+    <section class="section"><div class="container"><div class="section-white"><div class="inner">
+      <h2 class="fade-in">Who these <span class="accent">scripts</span> are for</h2>
+      <div class="who-grid">
+        <div class="who-category fade-in"><div class="who-icon" aria-hidden="true"><svg><use href="#i-user"/></svg></div><h3>Solo professionals</h3>
+          <ul><li>Manicure / pedicure</li><li>Brows / lashes</li><li>Hair (color, care)</li><li>Cosmetology</li><li>Permanent makeup</li><li>Massage</li></ul>
+        </div>
+        <div class="who-category fade-in fade-in-delay"><div class="who-icon" aria-hidden="true"><svg><use href="#i-building"/></svg></div><h3>Salons / clinics</h3>
+          <ul><li>Admins reply differently</li><li>Leads get wasted</li><li>No unified standards</li><li>Need control</li></ul>
+        </div>
+      </div>
+    </div></div></div></section>
+
+    <section class="section"><div class="container"><div class="section-white"><div class="inner">
+      <h2 class="fade-in">What you <span class="accent">get</span></h2>
+      <div class="benefits-grid">
+        <div class="card fade-in"><div class="icon" aria-hidden="true"><svg><use href="#i-list"/></svg></div><h3>Scripts for everything</h3><p>From “hi” to payment. Objections, silent readers, old threads.</p></div>
+        <div class="card fade-in fade-in-delay"><div class="icon" aria-hidden="true"><svg><use href="#i-rocket"/></svg></div><h3>Objection replies</h3><p>“Pricey”, “far”, “I’ll think”.</p></div>
+        <div class="card fade-in fade-in-delay-2"><div class="icon" aria-hidden="true"><svg><use href="#i-globe"/></svg></div><h3>By service</h3><p>Nails, brows, hair, cosmetology.</p></div>
+        <div class="card fade-in"><div class="icon" aria-hidden="true"><svg><use href="#i-clipboard"/></svg></div><h3>Silent readers</h3><p>Bring them back gently.</p></div>
+        <div class="card fade-in fade-in-delay"><div class="icon" aria-hidden="true"><svg><use href="#i-refresh"/></svg></div><h3>Revive threads</h3><p>Turn “dead” chats into bookings.</p></div>
+        <div class="card fade-in fade-in-delay-2"><div class="icon" aria-hidden="true"><svg><use href="#i-book"/></svg></div><h3>Implementation guide</h3><p>Step-by-step in 24 hours.</p></div>
+      </div>
+    </div></div></div></section>
+
+    <section class="section"><div class="container">
+      <div class="bonus fade-in">
+        <div class="title">🎁 Buy now and get 3 bonuses</div>
+        <div class="bonus-list">
+          <div class="bonus-item"><svg><use href="#i-gift"/></svg><div><b>Guide 1: Client base</b> — repeat clients without ads.</div></div>
+          <div class="bonus-item"><svg><use href="#i-checklist"/></svg><div><b>Checklist: Paid & free traffic</b> — traffic even with zero budget.</div></div>
+          <div class="bonus-item"><svg><use href="#i-chart"/></svg><div><b>Guide 2: 5 steps to sell on consultations</b> — upsell gently.</div></div>
+          <div class="bonus-cta"><b>Implement in 24 hours and stop losing leads.</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section"><div class="container"><div class="section-white"><div class="inner">
+      <h2 class="fade-in">Choose your <span class="accent">package</span></h2>
+      <div class="pricing">
+        <div class="card price-card fade-in"><h3>Universal scripts</h3><div class="price"><span class="accent">19</span>€</div><p class="price-desc">Ready dialogues for any niche</p><a class="btn-buy" href="#" data-pay="19">Buy</a></div>
+        <div class="card price-card fade-in fade-in-delay" style="border-color:var(--primary); box-shadow:0 12px 26px rgba(193,74,44,.18)"><div class="price-badge">Popular</div><h3>Full pack + 3 bonuses</h3><div class="price"><span class="accent">39</span>€</div><p class="price-desc">All scripts + personalization + 3 bonus guides</p><a class="btn-buy" href="#" data-pay="full">Buy full pack</a></div>
+        <div class="card price-card fade-in fade-in-delay-2"><h3>For a specific service</h3><div class="price"><span class="accent">19</span>€</div><p class="price-desc">Scripts tailored for your service</p><a class="btn-buy" href="#" data-pay="19">Buy</a></div>
+      </div>
+    </div></div></div></section>
+
+    <section class="section"><div class="container"><div class="urgency fade-in">⏰ €19 only until the end of the week. Then €29.</div></div></section>
+
+    <section class="section final-cta"><div class="container"><div class="inner">
+      <h2 class="fade-in">Stop losing <span class="accent-inline">money</span> because of wrong words</h2>
+      <p class="fade-in fade-in-delay" style="opacity:.92">Implement scripts within 24 hours. <span class="highlight-bg">Start earning more tomorrow.</span></p>
+      <div class="cta-row fade-in fade-in-delay-2">
+        <a class="cta cta-primary" href="#" data-pay="19">Buy for €19</a>
+        <a class="cta cta-secondary" href="#" data-pay="full">Full pack + 3 bonuses — €39</a>
+      </div>
+    </div></div></section>
+
+    <footer class="footer"><div class="container">
+      <p>Questions: <a href="mailto:you@example.com">you@example.com</a></p>
+      <p style="margin:10px 0"><a href="#">Privacy</a> · <a href="#">Terms</a></p>
+      <p>© 2025</p>
+    </div></footer>
+  </div>
+
+  <!-- ES -->
+  <div id="lang-es" class="lang-section">
+    <section class="hero"><div class="container">
+      <h1 class="fade-in">Scripts que convierten <span class="accent">mensajes en dinero</span></h1>
+      <p class="subtitle fade-in fade-in-delay">Diálogos listos: del primer mensaje a la reserva, upsell y objeciones. <span class="highlight-bg">Práctico. Claro. Sin relleno.</span> Resultado — <span class="highlight-underline">más reservas y mayor ticket</span>.</p>
+      <div class="cta-row fade-in fade-in-delay-2">
+        <a class="cta cta-primary" href="#" data-pay="19">Comprar por 19€</a>
+        <a class="cta cta-secondary" href="#" data-pay="full">Pack completo + 3 bonos — 39€</a>
+      </div>
+      <p class="fade-in fade-in-delay-3" style="opacity:.85;margin-top:16px;font-size:14px">Apple Pay y Google Pay funcionan automáticamente</p>
+    </div></section>
+
+    <section class="section"><div class="container"><div class="section-white"><div class="inner">
+      <h2 class="fade-in">Por qué es <span class="accent">importante</span></h2>
+      <p class="text-large fade-in fade-in-delay">La mitad de las consultas se pierde no por el precio, sino <span class="highlight-underline">por la falta de un algoritmo claro de respuesta</span>.</p>
+      <div class="pain-grid">
+        <div class="card fade-in"><div class="icon" aria-hidden="true"><svg><use href="#i-door"/></svg></div><h3>Los leads se escapan</h3><p>Sin <b>respuesta clara</b> — se van.</p></div>
+        <div class="card fade-in fade-in-delay"><div class="icon" aria-hidden="true"><svg><use href="#i-chat"/></svg></div><h3>Te pierdes en el chat</h3><p>“Lo pensaré / gracias” — <b>sin siguiente paso</b>.</p></div>
+        <div class="card fade-in fade-in-delay-2"><div class="icon" aria-hidden="true"><svg><use href="#i-clock"/></svg></div><h3>Pérdida de tiempo</h3><p>Los hilos se alargan, el cliente se enfría.</p></div>
+        <div class="card fade-in fade-in-delay-3"><div class="icon" aria-hidden="true"><svg><use href="#i-card"/></svg></div><h3>Pierdes ingresos</h3><p>Sin scripts, los leads <b>no convierten</b>.</p></div>
+      </div>
+    </div></div></div></section>
+
+    <section class="section"><div class="container"><div class="section-white"><div class="inner">
+      <h2 class="fade-in">Para quién son estos <span class="accent">scripts</span></h2>
+      <div class="who-grid">
+        <div class="who-category fade-in"><div class="who-icon" aria-hidden="true"><svg><use href="#i-user"/></svg></div><h3>Profesionales independientes</h3>
+          <ul><li>Manicura / pedicura</li><li>Cejas / pestañas</li><li>Pelo (color, cuidados)</li><li>Cosmetología</li><li>Maquillaje permanente</li><li>Masaje</li></ul>
+        </div>
+        <div class="who-category fade-in fade-in-delay"><div class="who-icon" aria-hidden="true"><svg><use href="#i-building"/></svg></div><h3>Salones / clínicas</h3>
+          <ul><li>Responden distinto</li><li>Se pierden leads</li><li>Sin estándares unificados</li><li>Quieres controlar los diálogos</li></ul>
+        </div>
+      </div>
+    </div></div></div></section>
+
+    <section class="section"><div class="container"><div class="section-white"><div class="inner">
+      <h2 class="fade-in">Qué <span class="accent">obtienes</span></h2>
+      <div class="benefits-grid">
+        <div class="card fade-in"><div class="icon" aria-hidden="true"><svg><use href="#i-list"/></svg></div><h3>Scripts para todo</h3><p>Del primer hola al pago.</p></div>
+        <div class="card fade-in fade-in-delay"><div class="icon" aria-hidden="true"><svg><use href="#i-rocket"/></svg></div><h3>Respuestas a objeciones</h3><p>“Caro”, “lejos”, “lo pensaré”.</p></div>
+        <div class="card fade-in fade-in-delay-2"><div class="icon" aria-hidden="true"><svg><use href="#i-globe"/></svg></div><h3>Por servicio</h3><p>Uñas, cejas, pelo, cosmetología.</p></div>
+        <div class="card fade-in"><div class="icon" aria-hidden="true"><svg><use href="#i-clipboard"/></svg></div><h3>Lectores silenciosos</h3><p>Recupéralos sin presión.</p></div>
+        <div class="card fade-in fade-in-delay"><div class="icon" aria-hidden="true"><svg><use href="#i-refresh"/></svg></div><h3>Reactivar hilos</h3><p>De “muertos” a reservas.</p></div>
+        <div class="card fade-in fade-in-delay-2"><div class="icon" aria-hidden="true"><svg><use href="#i-book"/></svg></div><h3>Guía de implementación</h3><p>Plan de 24 horas.</p></div>
+      </div>
+    </div></div></div></section>
+
+    <section class="section"><div class="container">
+      <div class="bonus fade-in">
+        <div class="title">🎁 Al comprar ahora recibes 3 bonos</div>
+        <div class="bonus-list">
+          <div class="bonus-item"><svg><use href="#i-gift"/></svg></div><div><b>Guía 1: Base de clientes</b> — clientes recurrentes sin publicidad.</div>
+          <div class="bonus-item"><svg><use href="#i-checklist"/></svg></div><div><b>Checklist: Tráfico pago y gratuito</b> — genera tráfico incluso sin presupuesto.</div>
+          <div class="bonus-item"><svg><use href="#i-chart"/></svg></div><div><b>Guía 2: 5 pasos para vender en consulta</b> — upsell sin presión.</div>
+          <div class="bonus-cta"><b>Implementa en 24 horas y deja de perder leads.</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section"><div class="container"><div class="section-white"><div class="inner">
+      <h2 class="fade-in">Elige tu <span class="accent">paquete</span></h2>
+      <div class="pricing">
+        <div class="card price-card fade-in"><h3>Scripts universales</h3><div class="price"><span class="accent">19</span>€</div><p class="price-desc">Diálogos listos para cualquier nicho</p><a class="btn-buy" href="#" data-pay="19">Comprar</a></div>
+        <div class="card price-card fade-in fade-in-delay" style="border-color:var(--primary); box-shadow:0 12px 26px rgba(193,74,44,.18)"><div class="price-badge">Popular</div><h3>Pack completo + 3 bonos</h3><div class="price"><span class="accent">39</span>€</div><p class="price-desc">Todos los scripts + personalización + 3 guías</p><a class="btn-buy" href="#" data-pay="full">Comprar pack completo</a></div>
+        <div class="card price-card fade-in fade-in-delay-2"><h3>Para servicio específico</h3><div class="price"><span class="accent">19</span>€</div><p class="price-desc">Scripts adaptados a tu servicio</p><a class="btn-buy" href="#" data-pay="19">Comprar</a></div>
+      </div>
+    </div></div></div></section>
+
+    <section class="section"><div class="container"><div class="urgency fade-in">⏰ 19€ solo hasta fin de semana. Luego 29€.</div></div></section>
+
+    <section class="section final-cta"><div class="container"><div class="inner">
+      <h2 class="fade-in">Deja de perder <span class="accent-inline">dinero</span> por palabras incorrectas</h2>
+      <p class="fade-in fade-in-delay" style="opacity:.92">Implementa scripts en 24 horas. <span class="highlight-bg">Empieza a ganar más mañana.</span></p>
+      <div class="cta-row fade-in fade-in-delay-2">
+        <a class="cta cta-primary" href="#" data-pay="19">Comprar por 19€</a>
+        <a class="cta cta-secondary" href="#" data-pay="full">Pack completo + 3 bonos — 39€</a>
+      </div>
+    </div></div></section>
+
+    <footer class="footer"><div class="container">
+      <p>Preguntas: <a href="mailto:you@example.com">you@example.com</a></p>
+      <p style="margin:10px 0"><a href="#">Privacidad</a> · <a href="#">Términos</a></p>
+      <p>© 2025</p>
+    </div></footer>
+  </div>
+
+  <script>
+    // Language switcher
+    function setLang(lang){
+      document.querySelectorAll('.lang-section').forEach(s=>s.classList.remove('active'));
+      const tgt = document.getElementById('lang-'+lang);
+      if(tgt){ tgt.classList.add('active'); }
+      document.querySelectorAll('.lang-btn').forEach(b=>{
+        const is = b.getAttribute('data-lang')===lang;
+        b.classList.toggle('active', is);
+        b.setAttribute('aria-selected', is ? 'true' : 'false');
+      });
+      initObserver(); observeAnimated();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+    document.addEventListener('DOMContentLoaded',()=>{
+      document.querySelectorAll('.lang-btn').forEach(b=>{
+        b.addEventListener('click',()=> setLang(b.getAttribute('data-lang')));
+      });
+      const PAY = {'19':'YOUR_STRIPE_LINK_19','full':'YOUR_STRIPE_LINK_39'};
+      document.body.addEventListener('click',(e)=>{
+        const a = e.target.closest('a[data-pay]'); if(!a) return;
+        e.preventDefault();
+        const url = PAY[a.getAttribute('data-pay')] || '#';
+        if(url && url!=='#') window.open(url,'_blank');
+      });
+      initObserver(); observeAnimated();
+    });
+
+    // Fade-in animation
+    let io;
+    function initObserver(){
+      if(io) io.disconnect();
+      io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} });
+      },{threshold:0.12});
+    }
+    function observeAnimated(){
+      document.querySelectorAll('.lang-section.active .fade-in').forEach(el=>{
+        el.classList.remove('visible'); io.observe(el);
+      });
+    }
+  </script>
+</body>
+</html>
