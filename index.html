@@ -96,6 +96,13 @@
   /* «Что получаете» — зелёные заголовки */
   .get-grid .card h3{color:var(--success)}
 
+  /* Conversion блок */
+  .conversion{background:var(--brand-grad);color:#fff;text-align:center;padding:68px 0}
+  .conversion h2{color:#fff;margin-bottom:12px}
+  .conversion p{font-size:18px;margin-bottom:24px;opacity:.95}
+  .conversion .icon{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);margin:0 auto 20px}
+  .conversion .icon svg{stroke:#fff}
+
   /* Бонусы — праздничнее */
   .bonus{background:var(--bonus-grad);border:1px solid #ffd6c5;border-radius:20px}
   .bonus .inner{padding:40px 28px}
@@ -109,13 +116,13 @@
   .badge-old{color:#999;text-decoration:line-through;margin-right:6px}
   .badge-new{background:var(--primary);color:#fff;border-radius:6px;padding:2px 6px;font-weight:800}
 
-  /* Пакеты */
-  .pricing{display:grid;gap:20px;grid-template-columns:repeat(2,1fr)}
-  .price-card{text-align:center;padding:22px;border:1px solid var(--border);border-radius:16px}
-  .price{font-size:32px;font-weight:800;color:var(--primary);margin:10px 0}
-  .btn-buy{display:block;background:var(--brand-grad);color:#fff;padding:12px;border-radius:12px;text-decoration:none;font-weight:800;transition:.18s}
+  /* Пакет */
+  .pricing{display:flex;justify-content:center}
+  .price-card{text-align:center;padding:32px 28px;border:2px solid var(--primary);border-radius:20px;background:#fff;box-shadow:0 16px 40px rgba(213,75,42,.15);max-width:400px}
+  .price{font-size:42px;font-weight:800;color:var(--primary);margin:12px 0}
+  .btn-buy{display:block;background:var(--brand-grad);color:#fff;padding:16px 24px;border-radius:50px;text-decoration:none;font-weight:800;transition:.18s;margin:16px 0}
   .btn-buy:hover{transform:translateY(-2px)}
-  .price-full{grid-column:1/-1;border-color:var(--primary);box-shadow:0 12px 26px rgba(213,75,42,.18)}
+  .access-note{font-size:14px;color:var(--muted);margin-top:8px}
 
   /* «Что изменится сразу» */
   .wins{list-style:none;display:grid;gap:10px;margin-top:8px}
@@ -144,7 +151,6 @@
   }
   @media (max-width:840px){
     .grid-3{grid-template-columns:repeat(2,1fr)}
-    .pricing{grid-template-columns:1fr}
   }
   @media (max-width:640px){
     .who-grid{grid-template-columns:1fr}
@@ -188,8 +194,8 @@
   <div class="container">
     <h1 class="reveal">Скрипты, которые превращают <span class="accent">сообщения в деньги</span></h1>
     <p class="reveal">Готовые диалоги: от первого сообщения до записи, апсейла и закрытия возражений. <span class="sell">Результат — больше записей, выше средний чек, меньше времени на переписку.</span></p>
-    <button class="cta reveal" data-pay="19">Купить — доступ сразу</button>
-    <div class="deadline reveal">Цена 19€ действует до воскресенья 23:59, затем — 29€.</div>
+    <button class="cta reveal" data-pay="full">Купить — доступ сразу</button>
+    <div class="deadline reveal">Доступ к материалам моментально после оплаты</div>
   </div>
 </section>
 
@@ -239,7 +245,7 @@
         </div>
         <div class="why-item">
           <div class="why-icon"><svg><use href="#i-exit"/></svg></div>
-          <div class="why-text">Упущенная выручка: заявки уходят к конкуренту</div>
+          <div class="why-text">Заявки уходят к конкуренту = потеря роста прибыли</div>
         </div>
       </div>
     </div>
@@ -260,7 +266,7 @@
       <div class="card reveal">
         <div class="icon"><svg><use href="#i-med"/></svg></div>
         <h3>Медицинским центрам</h3>
-        <p class="muted">Администраторы закрывают заявки, врачи работают с <span class="highlight">реальными пациентами</span>.</p>
+        <p class="muted">Админы закрывают заявки, врачи работают с <span class="highlight">реальными пациентами</span>.</p>
       </div>
       <div class="card reveal">
         <div class="icon"><svg><use href="#i-users3"/></svg></div>
@@ -291,15 +297,25 @@
   </div></div>
 </section>
 
+<!-- CONVERSION БЛОК -->
+<section class="conversion">
+  <div class="container">
+    <div class="icon reveal"><svg><use href="#i-rocket"/></svg></div>
+    <h2 class="reveal">Хватит терять деньги из-за неправильных слов</h2>
+    <p class="reveal">Внедри скрипты моментально</p>
+    <button class="cta reveal" data-pay="full">Купить — доступ сразу</button>
+  </div>
+</section>
+
 <!-- БОНУСЫ -->
 <section class="section">
   <div class="container bonus"><div class="inner">
-    <h2 class="reveal">Бонусы при покупке</h2>
+    <h2 class="reveal">Бонусы при покупке 🎉</h2>
     <p class="muted reveal" style="text-align:center;margin-bottom:18px">Суммарная ценность — <b>79€</b>. Сегодня идут <b>бесплатно</b> со скриптами.</p>
     <div class="bonus-list">
-      <div class="bonus-item reveal"><div class="gift orange"><svg><use href="#i-gift"/></svg></div><div><h3>Гайд 1</h3><p class="muted">Работа с клиентской базой — повторные записи без рекламы.</p></div><div class="bonus-price"><span class="badge-old">27€</span><span class="badge-new">0€</span></div></div>
-      <div class="bonus-item reveal"><div class="gift green"><svg><use href="#i-gift"/></svg></div><div><h3>Чек-лист</h3><p class="muted">Источники лидов: платные и бесплатные — где взять заявки сегодня.</p></div><div class="bonus-price"><span class="badge-old">32€</span><span class="badge-new">0€</span></div></div>
-      <div class="bonus-item reveal"><div class="gift blue"><svg><use href="#i-gift"/></svg></div><div><h3>Гайд 2</h3><p class="muted">5 этапов продаж на консультации — мягкий апсейл доп.услуг.</p></div><div class="bonus-price"><span class="badge-old">20€</span><span class="badge-new">0€</span></div></div>
+      <div class="bonus-item reveal"><div class="gift orange"><svg><use href="#i-gift"/></svg></div><div><h3>🎁 Гайд 1</h3><p class="muted">Работа с клиентской базой — повторные записи без рекламы.</p></div><div class="bonus-price"><span class="badge-old">27€</span><span class="badge-new">0€</span></div></div>
+      <div class="bonus-item reveal"><div class="gift green"><svg><use href="#i-gift"/></svg></div><div><h3>🎁 Чек-лист</h3><p class="muted">Платные и бесплатные способы — где взять заявки сегодня.</p></div><div class="bonus-price"><span class="badge-old">32€</span><span class="badge-new">0€</span></div></div>
+      <div class="bonus-item reveal"><div class="gift blue"><svg><use href="#i-gift"/></svg></div><div><h3>🎁 Гайд 2</h3><p class="muted">5 этапов продаж на консультации — мягкий апсейл доп.услуг.</p></div><div class="bonus-price"><span class="badge-old">20€</span><span class="badge-new">0€</span></div></div>
     </div>
   </div></div>
 </section>
@@ -317,31 +333,19 @@
   </div></div>
 </section>
 
-<!-- ПАКЕТЫ -->
+<!-- ПАКЕТ -->
 <section class="section" id="pricing">
   <div class="container section-card"><div class="inner">
-    <h2 class="reveal">Выбери <span class="accent">пакет</span></h2>
+    <h2 class="reveal">Полный <span class="accent">пакет</span></h2>
     <div class="pricing">
       <div class="price-card reveal">
-        <h3>Универсальные скрипты</h3>
-        <div class="price">19€</div>
-        <p class="muted">Диалоги для любой ниши</p>
-        <a class="btn-buy" href="#" data-pay="19">Купить — доступ сразу</a>
-      </div>
-      <div class="price-card reveal">
-        <h3>Под конкретную услугу</h3>
-        <div class="price">19€</div>
-        <p class="muted">Версия под твою услугу</p>
-        <a class="btn-buy" href="#" data-pay="19">Купить — доступ сразу</a>
-      </div>
-      <div class="price-card price-full reveal">
         <h3>Полный пакет + 3 бонуса</h3>
-        <div class="price">39€</div>
+        <div class="price">19€</div>
         <p class="muted">Все скрипты + персонализация + бонусы</p>
-        <a class="btn-buy" href="#" data-pay="full">Взять полный пакет — доступ сразу</a>
+        <a class="btn-buy" href="#" data-pay="full">Купить — доступ сразу</a>
+        <p class="access-note">Доступ к материалам моментально после оплаты</p>
       </div>
     </div>
-    <p class="muted" style="text-align:center;margin-top:10px">Цена 19€ действует до воскресенья 23:59, затем — 29€.</p>
   </div></div>
 </section>
 
@@ -358,7 +362,7 @@
       <div class="faq-a">Нет. Формулировки живые, адаптируешь под свой тон. Главное — следовать алгоритму.</div>
     </div>
     <div class="faq-item reveal">
-      <div class="faq-q">Зачем это администраторам?<span class="arr">▾</span></div>
+      <div class="faq-q">Зачем это админам?<span class="arr">▾</span></div>
       <div class="faq-a">Единый стандарт повышает конверсию, скорость и управляемость. Новички включаются быстрее.</div>
     </div>
     <div class="faq-item reveal">
