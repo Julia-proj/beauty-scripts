@@ -7,8 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --primary:#D54B2A;              /* более тёмный современный кирпичный */
-    --primary2:#F06A3F;
+    --primary:#D54B2A;               /* тёмный кирпично-оранжевый */
+    --primary2:#F06A3F;              /* второй оттенок оранжевого */
     --ink:#111;
     --ink-2:#333;
     --muted:#666;
@@ -16,7 +16,6 @@
     --bg:#ffffff;
     --success:#1f9d68;
     --danger:#C53030;
-    --surface:#f9fafb;
     --brand-grad:linear-gradient(135deg,#D54B2A,#F06A3F);
     --shadow:0 10px 40px rgba(0,0,0,.08);
     --highlight:rgba(213,75,42,.16);
@@ -34,6 +33,23 @@
   .muted{color:var(--muted)}
   .highlight{background:linear-gradient(transparent 58%, var(--highlight) 58%);padding:0 2px;border-radius:3px;font-weight:800}
   .sell{background:linear-gradient(transparent 55%, rgba(213,75,42,.28) 55%);padding:0 4px;border-radius:4px}
+
+  /* HERO (с fallback hero.jpg) */
+  .hero{color:#fff;text-align:center;padding:136px 0 110px;
+    background:
+      linear-gradient(180deg,rgba(0,0,0,.68),rgba(0,0,0,.52)),
+      url("/images/hero_final.jpg"),
+      url("/images/hero.jpg");
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+  }
+  .hero p{max-width:820px;margin:14px auto 20px;font-size:18px;color:#f2f2f2}
+  .cta{display:inline-block;padding:18px 34px;border-radius:50px;background:var(--brand-grad);color:#fff;font-weight:800;text-decoration:none;box-shadow:0 12px 36px rgba(213,75,42,.32);transition:.25s;border:none;cursor:pointer}
+  .cta:hover{transform:translateY(-3px);filter:brightness(1.05)}
+  .deadline{margin-top:10px;font-size:13px;opacity:.95}
+
+  /* Карточки / сетки */
   .section-card{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);margin:32px auto;overflow:hidden}
   .inner{padding:46px 34px}
   .grid{display:grid;gap:20px}
@@ -42,7 +58,7 @@
   .card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px;transition:.25s;position:relative}
   .card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(0,0,0,.08);border-color:var(--primary)}
 
-  /* Иконки — базовый ч/б стиль */
+  /* Иконки — ч/б по умолчанию */
   .icon{width:54px;height:54px;border-radius:12px;background:#f6f7f8;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
   .icon svg{width:26px;height:26px;stroke:#111;stroke-width:2;fill:none}
   .icon.danger{background:#FFF1F1;border-color:#F7C5C7}
@@ -50,16 +66,7 @@
   .icon.success{background:#E9F6F0;border-color:#CBEBDD}
   .icon.success svg{stroke:var(--success)}
 
-  /* HERO */
-  .hero{color:#fff;text-align:center;padding:136px 0 110px;background:
-    linear-gradient(180deg,rgba(0,0,0,.68),rgba(0,0,0,.52)),
-    url("/images/hero_final.jpg") center/cover no-repeat}
-  .hero p{max-width:820px;margin:14px auto 20px;font-size:18px;color:#f2f2f2}
-  .cta{display:inline-block;padding:18px 34px;border-radius:50px;background:var(--brand-grad);color:#fff;font-weight:800;text-decoration:none;box-shadow:0 12px 36px rgba(213,75,42,.32);transition:.25s;border:none;cursor:pointer}
-  .cta:hover{transform:translateY(-3px);filter:brightness(1.05)}
-  .deadline{margin-top:10px;font-size:13px;opacity:.95}
-
-  /* «СЕЙЧАС»: до/после — приведено к единому стилю */
+  /* Блок «Сейчас» (до/после) */
   .problem-wrapper{display:grid;grid-template-columns:1fr 60px 1fr;gap:22px;align-items:center;margin-top:18px}
   .problem-card{border-radius:16px;padding:22px}
   .problem-before{background:linear-gradient(135deg,#FEF2F2,#FEE2E2);border:2px solid #FCA5A5}
@@ -74,20 +81,22 @@
   .arrow{display:flex;align-items:center;justify-content:center}
   .arrow svg{stroke:var(--primary);stroke-width:2;width:34px;height:34px}
 
-  /* ПОЧЕМУ ЭТО ВАЖНО — красные иконки */
+  /* «Почему важно» — красные иконки + отступ сверху */
+  .why-important{margin-top:40px}
+  .why-important h3{text-align:center;margin-bottom:20px;font-size:22px}
   .why-grid{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;margin-top:18px}
   .why-item{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:200px}
   .why-icon{width:54px;height:54px;border-radius:12px;background:#FFF1F1;border:1px solid #F7C5C7;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
   .why-icon svg{width:26px;height:26px;stroke:var(--danger);fill:none}
   .why-text{font-weight:800;color:var(--ink-2);font-size:15px}
 
-  /* КОМУ ПОДХОДИТ */
+  /* «Кому подходят» */
   .who-grid{display:grid;gap:20px;grid-template-columns:repeat(2,1fr)}
 
-  /* ЧТО ПОЛУЧАЕТЕ — зелёные заголовки */
+  /* «Что получаете» — зелёные заголовки */
   .get-grid .card h3{color:var(--success)}
 
-  /* БОНУСЫ — праздничнее */
+  /* Бонусы — праздничнее */
   .bonus{background:var(--bonus-grad);border:1px solid #ffd6c5;border-radius:20px}
   .bonus .inner{padding:40px 28px}
   .bonus-list{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
@@ -96,12 +105,11 @@
   .gift.orange{background:#FFE6DC}
   .gift.green{background:#E6F7EF}
   .gift.blue{background:#E8F0FF}
-  .gift.purple{background:#F1E8FF}
   .bonus-price{text-align:right;white-space:nowrap}
   .badge-old{color:#999;text-decoration:line-through;margin-right:6px}
   .badge-new{background:var(--primary);color:#fff;border-radius:6px;padding:2px 6px;font-weight:800}
 
-  /* ПАКЕТЫ */
+  /* Пакеты */
   .pricing{display:grid;gap:20px;grid-template-columns:repeat(2,1fr)}
   .price-card{text-align:center;padding:22px;border:1px solid var(--border);border-radius:16px}
   .price{font-size:32px;font-weight:800;color:var(--primary);margin:10px 0}
@@ -109,14 +117,11 @@
   .btn-buy:hover{transform:translateY(-2px)}
   .price-full{grid-column:1/-1;border-color:var(--primary);box-shadow:0 12px 26px rgba(213,75,42,.18)}
 
-  /* ИЗМЕНИТСЯ СРАЗУ — улучшенная мобильная читабельность */
+  /* «Что изменится сразу» */
   .wins{list-style:none;display:grid;gap:10px;margin-top:8px}
   .wins li{display:flex;gap:10px;align-items:flex-start}
   .check{width:20px;height:20px;stroke:#fff}
   .check-wrap{width:22px;height:22px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;flex:0 0 22px;margin-top:2px}
-  @media (max-width:640px){
-    .wins li{background:#f9fafb;border:1px solid #f0f0f0;border-radius:12px;padding:12px}
-  }
 
   /* FAQ */
   .faq-item{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden}
@@ -128,10 +133,11 @@
   .sticky-cta{position:fixed;left:0;right:0;bottom:-90px;background:var(--brand-grad);color:#fff;text-align:center;padding:12px;font-weight:800;transition:.35s;z-index:999}
   .sticky-cta.show{bottom:0}
 
-  /* Анимация */
+  /* Анимация появления */
   .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s,transform .6s}
   .reveal.show{opacity:1;transform:translateY(0)}
 
+  /* Адаптив */
   @media (max-width:1024px){
     .problem-wrapper{grid-template-columns:1fr;gap:12px}
     .arrow{transform:rotate(90deg)}
@@ -145,18 +151,19 @@
     .grid-3{grid-template-columns:1fr}
     .inner{padding:34px 22px}
     .section{padding:56px 0}
+    .wins li{background:#f9fafb;border:1px solid #f0f0f0;border-radius:12px;padding:12px}
   }
 </style>
 </head>
 <body>
 
-<!-- SVG SPRITE -->
+<!-- SVG SPRITE (минималистичные иконки) -->
 <svg width="0" height="0" style="position:absolute;visibility:hidden">
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" fill="none"/></symbol>
   <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
 
-  <!-- почему это важно -->
+  <!-- почему важно -->
   <symbol id="i-dollar" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="2"/><path d="M17 7H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
   <symbol id="i-exit" viewBox="0 0 24 24"><path d="M10 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M13 12H3M6 9l-3 3 3 3" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
@@ -189,8 +196,9 @@
 <!-- СЕЙЧАС: Без → Со скриптами -->
 <section class="section">
   <div class="container section-card"><div class="inner">
-    <h2>Сейчас</h2>
-    <div class="problem-wrapper">
+    <h2 class="reveal">Сейчас</h2>
+
+    <div class="problem-wrapper reveal">
       <div class="problem-card problem-before">
         <div class="problem-title">
           <div class="problem-icon"><svg class="check"><use href="#i-x"/></svg></div>Без скриптов
@@ -218,8 +226,8 @@
       </div>
     </div>
 
-    <div class="why-important">
-      <h3 style="text-align:center;margin:14px 0 6px">Почему это <span class="accent">важно</span></h3>
+    <div class="why-important reveal">
+      <h3>Почему это <span class="accent">важно</span></h3>
       <div class="why-grid">
         <div class="why-item">
           <div class="why-icon"><svg><use href="#i-dollar"/></svg></div>
@@ -235,30 +243,31 @@
         </div>
       </div>
     </div>
+
   </div></div>
 </section>
 
 <!-- КОМУ ПОДХОДЯТ -->
 <section class="section">
   <div class="container section-card"><div class="inner">
-    <h2>Кому подходят <span class="accent">скрипты</span></h2>
+    <h2 class="reveal">Кому подходят <span class="accent">скрипты</span></h2>
     <div class="who-grid">
-      <div class="card">
+      <div class="card reveal">
         <div class="icon"><svg><use href="#i-scissors"/></svg></div>
         <h3>Владельцам салонов и студий</h3>
         <p class="muted">Стандарт ответов, <span class="highlight">скорость</span> и контроль: все отвечают одинаково сильно.</p>
       </div>
-      <div class="card">
+      <div class="card reveal">
         <div class="icon"><svg><use href="#i-med"/></svg></div>
         <h3>Медицинским центрам</h3>
         <p class="muted">Администраторы закрывают заявки, врачи работают с <span class="highlight">реальными пациентами</span>.</p>
       </div>
-      <div class="card">
+      <div class="card reveal">
         <div class="icon"><svg><use href="#i-users3"/></svg></div>
         <h3>Мастерам-универсалам</h3>
         <p class="muted">Ответы на все типовые ситуации — <span class="highlight">быстрее к записи</span>, увереннее в чате.</p>
       </div>
-      <div class="card">
+      <div class="card reveal">
         <div class="icon"><svg><use href="#i-user"/></svg></div>
         <h3>Узким специалистам</h3>
         <p class="muted">Ногти, брови, ресницы, волосы, косметология, перманент — <span class="highlight">готовые блоки под услугу</span>.</p>
@@ -270,14 +279,14 @@
 <!-- ЧТО ПОЛУЧАЕТЕ -->
 <section class="section">
   <div class="container section-card"><div class="inner">
-    <h2>Что <span class="accent">получаете</span> в системе</h2>
+    <h2 class="reveal">Что <span class="accent">получаете</span> в системе</h2>
     <div class="grid grid-3 get-grid">
-      <div class="card"><div class="icon"><svg><use href="#i-message"/></svg></div><h3>Готовые диалоги</h3><p>Приветствие, цены, запись, напоминания, апсейл — <span class="highlight">копируй и вставляй</span>.</p></div>
-      <div class="card"><div class="icon"><svg><use href="#i-shield"/></svg></div><h3>Ответы на возражения</h3><p>«Дорого», «далеко», «подумаю» — <span class="highlight">живые формулировки</span> без давления.</p></div>
-      <div class="card"><div class="icon"><svg><use href="#i-rocket"/></svg></div><h3>Под услуги</h3><p>Ногти, брови, ресницы, волосы, косметология, перманент — <span class="highlight">готовые блоки</span>.</p></div>
-      <div class="card"><div class="icon"><svg><use href="#i-refresh"/></svg></div><h3>Возврат «молчунов»</h3><p>Сценарии для повторных записей и возврата «остывших» лидов.</p></div>
-      <div class="card"><div class="icon"><svg><use href="#i-book"/></svg></div><h3>Гайд внедрения</h3><p><span class="highlight">Старт за 1 день</span> — пошаговый план + стандарты для команды.</p></div>
-      <div class="card"><div class="icon"><svg><use href="#i-check"/></svg></div><h3>Итог</h3><p><span class="highlight">Больше записей</span>, выше средний чек, меньше времени в переписке.</p></div>
+      <div class="card reveal"><div class="icon"><svg><use href="#i-message"/></svg></div><h3>Готовые диалоги</h3><p>Приветствие, цены, запись, напоминания, апсейл — <span class="highlight">копируй и вставляй</span>.</p></div>
+      <div class="card reveal"><div class="icon"><svg><use href="#i-shield"/></svg></div><h3>Ответы на возражения</h3><p>«Дорого», «далеко», «подумаю» — <span class="highlight">живые формулировки</span> без давления.</p></div>
+      <div class="card reveal"><div class="icon"><svg><use href="#i-rocket"/></svg></div><h3>Под услуги</h3><p>Ногти, брови, ресницы, волосы, косметология, перманент — <span class="highlight">готовые блоки</span>.</p></div>
+      <div class="card reveal"><div class="icon"><svg><use href="#i-refresh"/></svg></div><h3>Возврат «молчунов»</h3><p>Сценарии для повторных записей и возврата «остывших» лидов.</p></div>
+      <div class="card reveal"><div class="icon"><svg><use href="#i-book"/></svg></div><h3>Гайд внедрения</h3><p><span class="highlight">Старт за 1 день</span> — пошаговый план + стандарты для команды.</p></div>
+      <div class="card reveal"><div class="icon"><svg><use href="#i-check"/></svg></div><h3>Итог</h3><p><span class="highlight">Больше записей</span>, выше средний чек, меньше времени в переписке.</p></div>
     </div>
   </div></div>
 </section>
@@ -285,12 +294,12 @@
 <!-- БОНУСЫ -->
 <section class="section">
   <div class="container bonus"><div class="inner">
-    <h2>Бонусы при покупке</h2>
-    <p class="muted" style="text-align:center;margin-bottom:18px">Суммарная ценность — <b>79€</b>. Сегодня идут <b>бесплатно</b> со скриптами.</p>
+    <h2 class="reveal">Бонусы при покупке</h2>
+    <p class="muted reveal" style="text-align:center;margin-bottom:18px">Суммарная ценность — <b>79€</b>. Сегодня идут <b>бесплатно</b> со скриптами.</p>
     <div class="bonus-list">
-      <div class="bonus-item"><div class="gift orange"><svg><use href="#i-gift"/></svg></div><div><h3>Гайд 1</h3><p class="muted">Работа с клиентской базой — повторные записи без рекламы.</p></div><div class="bonus-price"><span class="badge-old">27€</span><span class="badge-new">0€</span></div></div>
-      <div class="bonus-item"><div class="gift green"><svg><use href="#i-gift"/></svg></div><div><h3>Чек-лист</h3><p class="muted">Источники лидов: платные и бесплатные — где взять заявки сегодня.</p></div><div class="bonus-price"><span class="badge-old">32€</span><span class="badge-new">0€</span></div></div>
-      <div class="bonus-item"><div class="gift blue"><svg><use href="#i-gift"/></svg></div><div><h3>Гайд 2</h3><p class="muted">5 этапов продаж на консультации — мягкий апсейл доп.услуг.</p></div><div class="bonus-price"><span class="badge-old">20€</span><span class="badge-new">0€</span></div></div>
+      <div class="bonus-item reveal"><div class="gift orange"><svg><use href="#i-gift"/></svg></div><div><h3>Гайд 1</h3><p class="muted">Работа с клиентской базой — повторные записи без рекламы.</p></div><div class="bonus-price"><span class="badge-old">27€</span><span class="badge-new">0€</span></div></div>
+      <div class="bonus-item reveal"><div class="gift green"><svg><use href="#i-gift"/></svg></div><div><h3>Чек-лист</h3><p class="muted">Источники лидов: платные и бесплатные — где взять заявки сегодня.</p></div><div class="bonus-price"><span class="badge-old">32€</span><span class="badge-new">0€</span></div></div>
+      <div class="bonus-item reveal"><div class="gift blue"><svg><use href="#i-gift"/></svg></div><div><h3>Гайд 2</h3><p class="muted">5 этапов продаж на консультации — мягкий апсейл доп.услуг.</p></div><div class="bonus-price"><span class="badge-old">20€</span><span class="badge-new">0€</span></div></div>
     </div>
   </div></div>
 </section>
@@ -298,8 +307,8 @@
 <!-- ЧТО ИЗМЕНИТСЯ СРАЗУ -->
 <section class="section">
   <div class="container section-card"><div class="inner">
-    <h2>Что изменится <span class="accent">сразу</span></h2>
-    <ul class="wins">
+    <h2 class="reveal">Что изменится <span class="accent">сразу</span></h2>
+    <ul class="wins reveal">
       <li><span class="check-wrap"><svg class="check"><use href="#i-check"/></svg></span> Перестанешь <span class="highlight">терять заявки</span> из-за слабых ответов.</li>
       <li><span class="check-wrap"><svg class="check"><use href="#i-check"/></svg></span> Начнёшь <span class="highlight">закрывать больше записей</span> уже с первого дня.</li>
       <li><span class="check-wrap"><svg class="check"><use href="#i-check"/></svg></span> Повысишь <span class="highlight">средний чек</span> через правильные предложения.</li>
@@ -311,21 +320,21 @@
 <!-- ПАКЕТЫ -->
 <section class="section" id="pricing">
   <div class="container section-card"><div class="inner">
-    <h2>Выбери <span class="accent">пакет</span></h2>
+    <h2 class="reveal">Выбери <span class="accent">пакет</span></h2>
     <div class="pricing">
-      <div class="price-card">
+      <div class="price-card reveal">
         <h3>Универсальные скрипты</h3>
         <div class="price">19€</div>
         <p class="muted">Диалоги для любой ниши</p>
         <a class="btn-buy" href="#" data-pay="19">Купить — доступ сразу</a>
       </div>
-      <div class="price-card">
+      <div class="price-card reveal">
         <h3>Под конкретную услугу</h3>
         <div class="price">19€</div>
         <p class="muted">Версия под твою услугу</p>
         <a class="btn-buy" href="#" data-pay="19">Купить — доступ сразу</a>
       </div>
-      <div class="price-card price-full">
+      <div class="price-card price-full reveal">
         <h3>Полный пакет + 3 бонуса</h3>
         <div class="price">39€</div>
         <p class="muted">Все скрипты + персонализация + бонусы</p>
@@ -339,20 +348,20 @@
 <!-- FAQ -->
 <section class="section">
   <div class="container section-card"><div class="inner">
-    <h2>FAQ</h2>
-    <div class="faq-item">
+    <h2 class="reveal">FAQ</h2>
+    <div class="faq-item reveal">
       <div class="faq-q">Сработает в моей нише?<span class="arr">▾</span></div>
       <div class="faq-a">Да. База универсальная + блоки под ногти/брови/ресницы/волосы/косметологию/перманент.</div>
     </div>
-    <div class="faq-item">
+    <div class="faq-item reveal">
       <div class="faq-q">Не будет ли звучать «по-скриптовому»?<span class="arr">▾</span></div>
       <div class="faq-a">Нет. Формулировки живые, адаптируешь под свой тон. Главное — следовать алгоритму.</div>
     </div>
-    <div class="faq-item">
+    <div class="faq-item reveal">
       <div class="faq-q">Зачем это администраторам?<span class="arr">▾</span></div>
       <div class="faq-a">Единый стандарт повышает конверсию, скорость и управляемость. Новички включаются быстрее.</div>
     </div>
-    <div class="faq-item">
+    <div class="faq-item reveal">
       <div class="faq-q">Когда будут результаты?<span class="arr">▾</span></div>
       <div class="faq-a">Часто — в первые 24 часа: готовые фразы экономят время и быстрее ведут к записи.</div>
     </div>
@@ -363,7 +372,7 @@
 <div class="sticky-cta">Готовые скрипты — 19€ • Доступ сразу</div>
 
 <script>
-  // лёгкая анимация
+  // Лёгкая анимация появления (как у Милы)
   let io;
   function observeAll(){
     if(io) io.disconnect();
@@ -374,7 +383,7 @@
   }
   document.addEventListener('DOMContentLoaded',observeAll);
 
-  // FAQ
+  // FAQ раскрытие
   document.body.addEventListener('click', (e)=>{
     const q=e.target.closest('.faq-q'); if(!q) return;
     const item=q.parentElement; const a=item.querySelector('.faq-a'); const arr=q.querySelector('.arr');
@@ -388,12 +397,17 @@
   const sticky=document.querySelector('.sticky-cta');
   window.addEventListener('scroll',()=>{ if(window.scrollY>900){sticky.classList.add('show')} else {sticky.classList.remove('show')} });
 
-  // Кнопки оплаты → Stripe backend (когда будет /api/checkout)
+  // Кнопки оплаты → готово к Stripe backend (/api/checkout)
   document.querySelectorAll('[data-pay]').forEach(b=>{
     b.addEventListener('click', async (e)=>{
       e.preventDefault();
-      // const res = await fetch('/api/checkout', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ plan: b.dataset.pay })});
-      // const data = await res.json(); if(data.url) window.location = data.url;
+      // Пример подключения Stripe:
+      // const res = await fetch('/api/checkout', {
+      //   method:'POST', headers:{'Content-Type':'application/json'},
+      //   body: JSON.stringify({ plan: b.dataset.pay })
+      // });
+      // const data = await res.json();
+      // if (data.url) window.location = data.url;
       document.getElementById('pricing')?.scrollIntoView({behavior:'smooth'});
     });
   });
