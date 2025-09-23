@@ -10,10 +10,11 @@
     --primary:#FF5B5B;
     --primary-dark:#E64545;
     --secondary:#FFE5E5;
-    --success:#00D68F;
+    --success:#10B981;
     --warning:#FFB94D;
     --dark:#0F172A;
     --gray:#64748B;
+    --muted:#475569;
     --light-gray:#F1F5F9;
     --white:#FFFFFF;
     --gradient:linear-gradient(135deg, #FF5B5B 0%, #FF8E53 100%);
@@ -22,127 +23,158 @@
     --shadow-lg:0 25px 50px rgba(0,0,0,0.12);
     --radius:16px;
     --transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+    --mark:#FFF3A6;
   }
+
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
   body{font-family:'Manrope',sans-serif;color:var(--dark);background:var(--white);line-height:1.6;font-size:16px}
   .container{max-width:1200px;margin:0 auto;padding:0 24px}
 
+  /* Minimal thin icons */
+  .icon{width:24px;height:24px;stroke:#0F172A;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .icon-32{width:32px;height:32px}
+  .icon-40{width:40px;height:40px}
+  .icon-48{width:48px;height:48px}
+  .bw{stroke:#0F172A;fill:none}
+
+  /* Highlighter (как у anyagal.ru) */
+  .hl{background:linear-gradient(transparent 62%, var(--mark) 62%);padding:0 .06em;border-radius:2px}
+
   /* Header */
-  .header{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);z-index:1000;padding:20px 0;box-shadow:var(--shadow-sm)}
+  .header{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);z-index:1000;padding:16px 0;box-shadow:var(--shadow-sm)}
   .header-content{display:flex;justify-content:space-between;align-items:center}
-  .logo{font-size:24px;font-weight:800;color:var(--primary)}
-  .header-btn{padding:12px 32px;background:var(--gradient);color:var(--white);border:none;border-radius:50px;font-weight:600;cursor:pointer;transition:var(--transition)}
+  .logo{font-size:22px;font-weight:800;color:var(--dark)}
+  .header-btn{padding:12px 28px;background:var(--gradient);color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer;transition:var(--transition)}
   .header-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 
-  /* Hero */
-  .hero{padding:140px 0 80px;background:linear-gradient(135deg, #FFF5F5 0%, #FFE5E5 100%);position:relative;overflow:hidden}
-  .hero::before{content:'';position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle, rgba(255,91,91,0.1) 0%, transparent 70%);border-radius:50%}
-  .hero-content{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:1}
-  .hero-text h1{font-size:clamp(36px,5vw,56px);line-height:1.1;font-weight:800;margin-bottom:24px;color:var(--dark)}
+  /* HERO (фон: images/hero.jpg) */
+  .hero{
+    padding:140px 0 90px;position:relative;overflow:hidden;color:#0F172A;
+    background:
+      linear-gradient(0deg, rgba(255,255,255,.86), rgba(255,255,255,.86)),
+      url('images/hero.jpg') center/cover no-repeat;
+  }
+  .hero-content{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .hero-text h1{font-size:clamp(36px,5vw,56px);line-height:1.1;font-weight:800;margin-bottom:18px}
+  .hero-text p{font-size:20px;color:var(--muted);margin-bottom:24px}
   .gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-  .hero-subtitle{font-size:20px;color:var(--gray);margin-bottom:32px;line-height:1.6}
-  .hero-stats{display:flex;gap:32px;margin-bottom:40px}
-  .stat-item{display:flex;flex-direction:column}
-  .stat-number{font-size:32px;font-weight:800;color:var(--primary)}
-  .stat-label{font-size:14px;color:var(--gray)}
-  .cta-button{display:inline-flex;align-items:center;gap:12px;padding:20px 40px;background:var(--gradient);color:var(--white);border:none;border-radius:50px;font-size:18px;font-weight:700;cursor:pointer;transition:var(--transition);text-decoration:none}
+  .hero-actions{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+  .cta-button{display:inline-flex;align-items:center;gap:12px;padding:18px 32px;background:var(--gradient);color:#fff;border:none;border-radius:999px;font-size:17px;font-weight:800;cursor:pointer;transition:var(--transition);text-decoration:none}
   .cta-button:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(255,91,91,0.3)}
+  .payline{display:flex;gap:10px;align-items:center;color:var(--gray);font-size:14px}
+  .pay-pill{border:1px solid #E2E8F0;border-radius:10px;padding:6px 10px}
+
   .hero-visual{position:relative}
-  .hero-card{background:var(--white);border-radius:24px;padding:32px;box-shadow:var(--shadow-lg);transform:rotate(-2deg)}
-  .mini-card{position:absolute;background:var(--white);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
-  .mini-card.top{top:-30px;right:-30px;transform:rotate(5deg)}
-  .mini-card.bottom{bottom:-30px;left:-30px;transform:rotate(-5deg)}
+  .hero-card{background:rgba(255,255,255,0.9);backdrop-filter:saturate(140%) blur(8px);border:1px solid #eaeaea;border-radius:24px;padding:28px;box-shadow:var(--shadow-lg)}
 
-  /* Problem */
-  .problem{padding:100px 0;background:var(--light-gray)}
-  .section-header{text-align:center;margin-bottom:64px}
-  .section-title{font-size:clamp(32px,4vw,48px);font-weight:800;margin-bottom:16px}
+  /* СЕЙЧАС — сравнение */
+  .problem{padding:96px 0;background:var(--light-gray)}
+  .section-header{text-align:center;margin-bottom:56px}
+  .section-title{font-size:clamp(32px,4vw,48px);font-weight:800;margin-bottom:12px}
   .section-subtitle{font-size:18px;color:var(--gray)}
-  .comparison-container{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:1000px;margin:0 auto}
-  .comparison-card{background:var(--white);border-radius:var(--radius);padding:40px;position:relative}
-  .comparison-card.negative{border:2px solid #FFE5E5}
-  .comparison-card.positive{border:2px solid #D4F4E4;transform:scale(1.05)}
-  .card-badge{position:absolute;top:-16px;left:32px;padding:8px 20px;border-radius:24px;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:1px}
-  .negative .card-badge{background:var(--primary);color:var(--white)}
-  .positive .card-badge{background:var(--success);color:var(--white)}
-  .comparison-list{list-style:none;margin-top:24px}
-  .comparison-list li{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;font-size:15px}
-  .list-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:bold;margin-top:2px}
-  .negative .list-icon{background:#FFE5E5;color:var(--primary)}
-  .positive .list-icon{background:#D4F4E4;color:var(--success)}
+  .comparison-container{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1000px;margin:0 auto}
+  .comparison-card{background:#fff;border-radius:var(--radius);padding:28px;border:1px solid #eee}
+  .card-badge{display:inline-flex;gap:8px;align-items:center;font-weight:900;font-size:14px;margin-bottom:12px}
+  .comparison-list{list-style:none}
+  .comparison-list li{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:15px;color:#111}
+  .list-icon{display:inline-flex;align-items:center;justify-content:center}
+  .icon-x{stroke:#ef4444}.icon-check{stroke:#10b981}
 
-  /* Features */
-  .features{padding:100px 0;background:var(--white)}
-  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:32px;margin-top:64px}
-  .feature-card{background:var(--light-gray);border-radius:var(--radius);padding:40px;transition:var(--transition);position:relative;overflow:hidden}
-  .feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradient);transform:scaleX(0);transition:var(--transition)}
-  .feature-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
-  .feature-card:hover::before{transform:scaleX(1)}
-  .feature-emoji{font-size:48px;margin-bottom:24px}
-  .feature-title{font-size:20px;font-weight:700;margin-bottom:12px}
-  .feature-desc{color:var(--gray);font-size:15px;line-height:1.6}
+  /* ПОЧЕМУ ЭТО ВАЖНО */
+  .why{padding:70px 0;background:var(--light-gray)}
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1000px;margin:0 auto}
+  .why-card{background:#fff;border:1px solid #eee;border-radius:16px;padding:20px;display:flex;gap:14px;align-items:flex-start}
+  .why-title{font-weight:800;margin-bottom:2px}
+  .why-text{color:var(--gray);font-size:14px}
 
-  /* Pricing */
+  /* КОМУ ПОДХОДЯТ (2x2) */
+  .audience{padding:84px 0;background:#fff}
+  .aud-grid{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:26px;max-width:900px;margin:40px auto 0}
+  .aud-card{border:1px solid #eee;border-radius:16px;padding:22px 20px;background:#fff;display:flex;gap:12px}
+  .aud-title{font-weight:800;margin-bottom:4px}
+  .aud-text{font-size:14px;color:var(--gray)}
+
+  /* ЧТО ПОЛУЧАЕТЕ */
+  .features{padding:96px 0;background:#fff}
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;margin-top:48px}
+  .feature-card{background:var(--light-gray);border:1px solid #eceff3;border-radius:var(--radius);padding:24px;transition:var(--transition)}
+  .feature-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+  .feature-title{font-size:18px;font-weight:800;margin-bottom:6px}
+  .feature-desc{color:var(--gray);font-size:15px}
+
+  /* CONVERSION — тёмное фото + затемнение */
+  .conversion{
+    padding:90px 0;color:#fff;text-align:center;
+    background:
+      linear-gradient(0deg, rgba(0,0,0,.65), rgba(0,0,0,.65)),
+      url('images/hero.jpg') center/cover no-repeat;
+  }
+  .btn-white{background:#fff;color:var(--primary);padding:16px 28px;border-radius:999px;font-size:16px;font-weight:900;border:none;cursor:pointer;transition:var(--transition);display:inline-flex;gap:10px;align-items:center;text-decoration:none}
+  .btn-white:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,0.2)}
+  .conv-pay{margin-top:10px;display:flex;gap:10px;align-items:center;justify-content:center;font-size:14px;color:#e5e7eb}
+  .conv-pill{border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:6px 10px}
+
+  /* БОНУСЫ — празднично */
+  .bonuses{padding:96px 0;background:#fff}
+  .bonus-wrap{background:linear-gradient(135deg,#FFF7FB,#FFF0F6);border:1px solid #FFD9EC;border-radius:26px;padding:44px;box-shadow:0 16px 40px rgba(255,91,91,0.10)}
+  .bonus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:22px}
+  .bonus-card{background:#fff;border:1px solid #FFD7E9;border-radius:18px;padding:20px;display:flex;gap:14px;align-items:flex-start}
+  .gift{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .gift svg{stroke:#0F172A}
+  .gift.orange{background:#FFE9D6}
+  .gift.green{background:#E7F8EF}
+  .gift.blue{background:#E7F0FF}
+  .bonus-title{font-weight:900}
+  .bonus-desc{color:#6B7280;font-size:14px;margin-top:4px}
+  .bonus-value{display:flex;align-items:center;gap:10px;margin-top:10px}
+  .bonus-old{color:#999;text-decoration:line-through}
+  .bonus-free{background:#111;color:#fff;border-radius:999px;padding:4px 10px;font-weight:800;font-size:12px}
+
+  /* ЧТО ИЗМЕНИТСЯ СРАЗУ */
+  .changes{padding:90px 0;background:#fff}
+  .change-list{max-width:760px;margin:20px auto 0;list-style:none;display:grid;gap:12px}
+  .change-item{display:flex;gap:10px;align-items:flex-start}
+  .ok{width:22px;height:22px;border-radius:50%;background:#E6F4EA;display:flex;align-items:center;justify-content:center}
+  .ok svg{stroke:#10B981;width:14px;height:14px}
+
+  /* ПРАЙС */
   .pricing{padding:100px 0;background:linear-gradient(135deg, #FFF5F5 0%, #FFE5E5 100%)}
-  .price-card{max-width:600px;margin:64px auto 0;background:var(--white);border-radius:32px;padding:48px;box-shadow:0 30px 60px rgba(0,0,0,0.1);position:relative}
-  .discount-badge{position:absolute;top:-20px;right:40px;background:transparent;color:transparent;padding:12px 24px;border-radius:50px;font-weight:700;font-size:14px}
-  .price-header{text-align:center;margin-bottom:40px}
-  .price-title{font-size:28px;font-weight:800;margin-bottom:8px}
+  .price-card{max-width:600px;margin:56px auto 0;background:#fff;border-radius:24px;padding:40px;box-shadow:0 30px 60px rgba(0,0,0,0.1);border:1px solid #eee}
+  .price-header{text-align:center;margin-bottom:20px}
+  .price-title{font-size:24px;font-weight:800;margin-bottom:6px}
   .price-subtitle{color:var(--gray)}
-  .price-amount{display:flex;align-items:baseline;justify-content:center;gap:16px;margin-bottom:40px}
-  .old-price{font-size:32px;color:#CBD5E1;text-decoration:line-through;visibility:hidden}
-  .new-price{font-size:64px;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-  .price-features{list-style:none;margin-bottom:40px}
-  .price-features li{display:flex;align-items:center;gap:16px;padding:16px;background:var(--light-gray);border-radius:12px;margin-bottom:12px}
-  .feature-check{width:28px;height:28px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--white);flex-shrink:0;font-weight:bold}
-  .payments{display:flex;justify-content:center;gap:12px;margin-top:32px;padding-top:32px;border-top:2px solid var(--light-gray)}
-  .payment-method{width:60px;height:40px;background:var(--light-gray);border-radius:8px;display:flex;align-items:center;justify-content:center;padding:8px}
-  .payment-method img{max-width:100%;max-height:100%}
-
-  /* Guarantee (unused text -> kept minimal visual) */
-  .guarantee{padding:0;background:var(--white)}
+  .price-amount{display:flex;align-items:center;justify-content:center;gap:12px;margin:18px 0 14px}
+  .new-price{font-size:58px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .price-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:18px 24px;background:var(--gradient);color:#fff;border:none;border-radius:999px;font-weight:900;text-decoration:none}
+  .price-note{margin-top:8px;color:#334155;font-size:14px;text-align:center}
+  .payline-center{display:flex;gap:10px;align-items:center;justify-content:center;color:#334155;font-size:14px;margin-top:10px}
+  .pay-pill-dark{border:1px solid #cbd5e1;border-radius:10px;padding:6px 10px;background:#fff}
 
   /* FAQ */
-  .faq{padding:100px 0;background:var(--light-gray)}
-  .faq-grid{max-width:800px;margin:64px auto 0}
-  .faq-item{background:var(--white);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;transition:var(--transition)}
-  .faq-item:hover{box-shadow:var(--shadow)}
-  .faq-header{padding:24px 32px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:17px}
-  .faq-icon{width:32px;height:32px;background:var(--light-gray);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
-  .faq-item.active .faq-icon{background:var(--gradient);color:var(--white);transform:rotate(180deg)}
-  .faq-body{padding:0 32px;max-height:0;overflow:hidden;transition:all 0.3s ease}
-  .faq-item.active .faq-body{padding:0 32px 24px;max-height:300px}
+  .faq{padding:90px 0;background:var(--light-gray)}
+  .faq-grid{max-width:820px;margin:40px auto 0}
+  .faq-item{background:#fff;border:1px solid #eee;border-radius:16px;margin-bottom:14px;overflow:hidden;transition:var(--transition)}
+  .faq-header{padding:20px 24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:16px}
+  .faq-body{padding:0 24px;max-height:0;overflow:hidden;transition:all .3s ease;color:var(--gray)}
+  .faq-item.active .faq-body{padding:0 24px 20px;max-height:300px}
 
-  /* CTA Section */
-  .cta-section{padding:100px 0;background:var(--gradient);color:var(--white);text-align:center}
-  .cta-title{font-size:clamp(32px,4vw,48px);font-weight:800;margin-bottom:24px}
-  .cta-subtitle{font-size:20px;opacity:0.95;margin-bottom:40px}
-  .cta-white{background:var(--white);color:var(--primary);padding:20px 48px;border-radius:50px;font-size:18px;font-weight:700;border:none;cursor:pointer;transition:var(--transition);display:inline-block;text-decoration:none}
-  .cta-white:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,0.2)}
-
-  /* Footer */
-  .footer{padding:40px 0;background:var(--dark);color:var(--white);text-align:center}
-  .footer-text{opacity:0.8;font-size:14px}
+  /* Sticky CTA */
+  .sticky{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:999;background:#111;color:#fff;padding:12px 18px;border-radius:999px;box-shadow:0 16px 30px rgba(0,0,0,.25);display:flex;gap:10px;align-items:center;cursor:pointer}
+  .sticky svg{stroke:#fff}
 
   /* Animations */
   .slide-up{opacity:0;transform:translateY(40px);transition:all 0.6s cubic-bezier(0.4,0,0.2,1)}
   .slide-up.visible{opacity:1;transform:translateY(0)}
-  .slide-left{opacity:0;transform:translateX(-40px);transition:all 0.6s cubic-bezier(0.4,0,0.2,1)}
-  .slide-left.visible{opacity:1;transform:translateX(0)}
-  .slide-right{opacity:0;transform:translateX(40px);transition:all 0.6s cubic-bezier(0.4,0,0.2,1)}
-  .slide-right.visible{opacity:1;transform:translateX(0)}
 
   /* Responsive */
-  @media (max-width:768px){
-    .hero-content,.comparison-container{grid-template-columns:1fr;gap:40px}
-    .hero{padding:100px 0 60px}
-    .hero-stats{justify-content:space-around}
-    .comparison-card.positive{transform:none}
+  @media (max-width:960px){
+    .hero-content{grid-template-columns:1fr;gap:40px}
+    .comparison-container{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:1fr}
+    .aud-grid{grid-template-columns:1fr}
     .features-grid{grid-template-columns:1fr}
-    .price-card{padding:32px 24px}
-    .new-price{font-size:48px}
-    .header-content{padding:0 16px}
+    .hero{padding:120px 0 70px}
   }
 </style>
 </head>
@@ -151,163 +183,303 @@
 <header class="header">
   <div class="container">
     <div class="header-content">
-      <div class="logo">Beauty Scripts</div>
+      <div class="logo">Beauty <span class="hl">Scripts</span></div>
       <button class="header-btn" onclick="scrollToPrice()">Купить</button>
     </div>
   </div>
 </header>
 
+<!-- 1) HERO -->
 <section class="hero">
   <div class="container">
     <div class="hero-content">
       <div class="hero-text slide-up">
         <h1>Скрипты, которые превращают <span class="gradient-text">сообщения в деньги</span></h1>
-        <p class="hero-subtitle">Готовые диалоги: от первого сообщения до записи, апсейла и закрытия возражений. Результат — больше записей, выше средний чек, меньше времени на переписку.</p>
-
-        <!-- пустые счетчики, чтобы не добавлять новый смысл -->
-        <div class="hero-stats" aria-hidden="true">
-          <div class="stat-item"><div class="stat-number">&nbsp;</div><div class="stat-label">&nbsp;</div></div>
-          <div class="stat-item"><div class="stat-number">&nbsp;</div><div class="stat-label">&nbsp;</div></div>
-          <div class="stat-item"><div class="stat-number">&nbsp;</div><div class="stat-label">&nbsp;</div></div>
+        <p>Готовые диалоги: от первого сообщения до записи, апсейла и закрытия возражений. Результат — <span class="hl">больше записей</span>, <span class="hl">выше средний чек</span>, меньше времени на переписку.</p>
+        <div class="hero-actions">
+          <a class="cta-button" href="#pricing">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Купить
+          </a>
+          <div class="payline">
+            <span>Доступ сразу</span>
+            <span class="pay-pill">Apple Pay</span>
+            <span class="pay-pill">Google Pay</span>
+          </div>
         </div>
-
-        <a class="cta-button" href="#pricing">
-          Купить
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
-        </a>
       </div>
 
-      <div class="hero-visual slide-right">
-        <!-- визуальные карточки без новых обещаний -->
+      <div class="hero-visual slide-up" aria-hidden="true">
         <div class="hero-card">
-          <h3>💬 Готовые диалоги</h3>
-          <p style="margin-top:16px;font-size:14px;color:var(--gray)">Приветствие, цены, запись, напоминания, апсейл — копируй и вставляй.</p>
+          <div style="display:flex;gap:10px;align-items:center">
+            <svg class="icon icon-32" viewBox="0 0 24 24"><path class="bw" d="M3 6h18M3 12h18M3 18h18"/></svg>
+            <h3 style="margin:0;font-weight:900">Готовые диалоги</h3>
+          </div>
+          <p style="margin-top:12px;color:var(--muted)">Приветствие, цены, запись, напоминания, апсейл — <span class="hl">копируй и вставляй</span>.</p>
         </div>
-        <div class="mini-card top"><strong style="color:var(--success)">&nbsp;</strong><br><span style="font-size:12px">&nbsp;</span></div>
-        <div class="mini-card bottom"><strong style="color:var(--primary)">&nbsp;</strong><br><span style="font-size:12px">&nbsp;</span></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- 2) СЕЙЧАС -->
 <section class="problem">
   <div class="container">
     <div class="section-header slide-up">
       <h2 class="section-title">Сейчас</h2>
-      <p class="section-subtitle"></p>
     </div>
 
     <div class="comparison-container">
-      <div class="comparison-card negative slide-left">
-        <span class="card-badge">Без скриптов</span>
-        <h3 style="margin-top:24px;margin-bottom:24px"></h3>
+      <div class="comparison-card slide-up">
+        <div class="card-badge">
+          <svg class="icon" viewBox="0 0 24 24"><path class="icon-x" d="M6 6l12 12M18 6l-12 12"/></svg>
+          Без скриптов
+        </div>
         <ul class="comparison-list">
-          <li><span class="list-icon">✕</span><span>Клиент пишет «Сколько стоит?» — отвечаете цену — тишина</span></li>
-          <li><span class="list-icon">✕</span><span>На «я подумаю» нет следующего шага</span></li>
-          <li><span class="list-icon">✕</span><span>Переписка тянется, клиент остывает</span></li>
-          <li><span class="list-icon">✕</span><span>Из 10 заявок записывается 2–3</span></li>
+          <li><span class="list-icon"><svg class="icon" viewBox="0 0 24 24"><path class="icon-x" d="M6 6l12 12M18 6l-12 12"/></svg></span><span>Клиент пишет «Сколько стоит?» — отвечаете цену — тишина</span></li>
+          <li><span class="list-icon"><svg class="icon" viewBox="0 0 24 24"><path class="icon-x" d="M6 6l12 12M18 6l-12 12"/></svg></span><span>На «я подумаю» нет следующего шага</span></li>
+          <li><span class="list-icon"><svg class="icon" viewBox="0 0 24 24"><path class="icon-x" d="M6 6l12 12M18 6l-12 12"/></svg></span><span>Переписка тянется, клиент остывает</span></li>
+          <li><span class="list-icon"><svg class="icon" viewBox="0 0 24 24"><path class="icon-x" d="M6 6l12 12M18 6l-12 12"/></svg></span><span>Из 10 заявок записывается 2–3</span></li>
         </ul>
       </div>
 
-      <div class="comparison-card positive slide-right">
-        <span class="card-badge">Со скриптами</span>
-        <h3 style="margin-top:24px;margin-bottom:24px"></h3>
+      <div class="comparison-card slide-up">
+        <div class="card-badge">
+          <svg class="icon" viewBox="0 0 24 24"><path class="icon-check" d="M5 13l4 4L19 7"/></svg>
+          Со скриптами
+        </div>
         <ul class="comparison-list">
-          <li><span class="list-icon">✓</span><span>На любой вопрос — готовый ответ</span></li>
-          <li><span class="list-icon">✓</span><span>Возражения закрываются мягко и без давления</span></li>
-          <li><span class="list-icon">✓</span><span>До записи — за 3–5 сообщений</span></li>
-          <li><span class="list-icon">✓</span><span>Из 10 заявок записывается 6–7</span></li>
+          <li><span class="list-icon"><svg class="icon" viewBox="0 0 24 24"><path class="icon-check" d="M5 13l4 4L19 7"/></svg></span><span>На любой вопрос — готовый ответ</span></li>
+          <li><span class="list-icon"><svg class="icon" viewBox="0 0 24 24"><path class="icon-check" d="M5 13l4 4L19 7"/></svg></span><span>Возражения закрываются мягко и без давления</span></li>
+          <li><span class="list-icon"><svg class="icon" viewBox="0 0 24 24"><path class="icon-check" d="M5 13l4 4L19 7"/></svg></span><span>До записи — за 3–5 сообщений</span></li>
+          <li><span class="list-icon"><svg class="icon" viewBox="0 0 24 24"><path class="icon-check" d="M5 13l4 4L19 7"/></svg></span><span>Из 10 заявок записывается 6–7</span></li>
         </ul>
       </div>
-    </div>
-
-    <div class="section-header" style="margin-top:64px">
-      <h2 class="section-title">Почему это важно</h2>
-      <p class="section-subtitle">Сливаются деньги на рекламу • Тратится время впустую • Заявки уходят к конкуренту и теряется прибыль</p>
     </div>
   </div>
 </section>
 
+<!-- 3) ПОЧЕМУ ЭТО ВАЖНО -->
+<section class="why">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Почему это важно</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <!-- 💸 -->
+        <svg class="icon icon-32" viewBox="0 0 24 24"><path class="bw" d="M3 7h18M3 17h18M7 7v10M17 7v10M9 12h6"/></svg>
+        <div>
+          <div class="why-title">Сливаются деньги на рекламу</div>
+          <div class="why-text"></div>
+        </div>
+      </div>
+      <div class="why-card">
+        <!-- ⏳ -->
+        <svg class="icon icon-32" viewBox="0 0 24 24"><path class="bw" d="M6 2h12M6 22h12M7 2c0 6 10 6 10 0M7 22c0-6 10-6 10 0"/></svg>
+        <div>
+          <div class="why-title">Тратится время впустую</div>
+          <div class="why-text"></div>
+        </div>
+      </div>
+      <div class="why-card">
+        <!-- 🚪 -->
+        <svg class="icon icon-32" viewBox="0 0 24 24"><path class="bw" d="M5 21h14V3H5v18zM10 12h2"/><path class="bw" d="M2 21h3"/></svg>
+        <div>
+          <div class="why-title">Заявки уходят к конкурентам и теряется прибыль</div>
+          <div class="why-text"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4) КОМУ ПОДХОДЯТ (2x2) -->
+<section class="audience">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Кому подходят скрипты</h2>
+    </div>
+    <div class="aud-grid">
+      <div class="aud-card">
+        <!-- ✂️ -->
+        <svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M4 7l8 5-8 5"/><circle cx="4" cy="7" r="2" class="bw"/><circle cx="4" cy="17" r="2" class="bw"/><path class="bw" d="M12 12l8-5M12 12l8 5"/></svg>
+        <div>
+          <div class="aud-title">Владельцам салонов и студий</div>
+          <div class="aud-text">Стандарт ответов, скорость и контроль: все отвечают одинаково сильно.</div>
+        </div>
+      </div>
+      <div class="aud-card">
+        <!-- 🏥 -->
+        <svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M4 20h16V6H4zM8 6V4h8v2"/><path class="bw" d="M12 9v6M9 12h6"/></svg>
+        <div>
+          <div class="aud-title">Медицинским центрам</div>
+          <div class="aud-text">Админы закрывают заявки, врачи работают с реальными пациентами.</div>
+        </div>
+      </div>
+      <div class="aud-card">
+        <!-- 👥 -->
+        <svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M16 11a4 4 0 100-8 4 4 0 000 8zM8 13a4 4 0 100-8 4 4 0 000 8z"/><path class="bw" d="M2 22a6 6 0 0112 0M10 22a6 6 0 0112 0"/></svg>
+        <div>
+          <div class="aud-title">Мастерам-универсалам</div>
+          <div class="aud-text">Ответы на все типовые ситуации — быстрее к записи, увереннее в чате.</div>
+        </div>
+      </div>
+      <div class="aud-card">
+        <!-- 👤 -->
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" class="bw"/><path class="bw" d="M4 21a8 8 0 0116 0"/></svg>
+        <div>
+          <div class="aud-title">Узким специалистам</div>
+          <div class="aud-text">Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки под услугу.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5) ЧТО ПОЛУЧАЕТЕ В СИСТЕМЕ -->
 <section class="features">
   <div class="container">
-    <div class="section-header slide-up">
-      <h2 class="section-title">Что получаете <span class="gradient-text">в системе</span></h2>
-      <p class="section-subtitle"></p>
+    <div class="section-header">
+      <h2 class="section-title">Что получаете в системе</h2>
     </div>
-
     <div class="features-grid">
       <div class="feature-card slide-up">
-        <div class="feature-emoji">💬</div>
-        <h3 class="feature-title">Готовые диалоги</h3>
+        <!-- 💬 -->
+        <svg class="icon icon-48" viewBox="0 0 24 24"><path class="bw" d="M3 6h18v9H8l-5 3V6z"/></svg>
+        <div class="feature-title">Готовые диалоги</div>
         <p class="feature-desc">Приветствие, цены, запись, напоминания, апсейл — копируй и вставляй.</p>
       </div>
-
       <div class="feature-card slide-up">
-        <div class="feature-emoji">🛡️</div>
-        <h3 class="feature-title">Ответы на возражения</h3>
-        <p class="feature-desc">«Дорого», «далеко», «подумаю» — живые формулировки без давления.</p>
+        <!-- 🛡️ -->
+        <svg class="icon icon-48" viewBox="0 0 24 24"><path class="bw" d="M12 3l7 4v5c0 5-7 9-7 9s-7-4-7-9V7z"/></svg>
+        <div class="feature-title">Ответы на возражения</div>
+        <p class="feature-desc">“Дорого”, “далеко”, “подумаю” — живые формулировки без давления.</p>
       </div>
-
       <div class="feature-card slide-up">
-        <div class="feature-emoji">🚀</div>
-        <h3 class="feature-title">Под услуги</h3>
+        <!-- 🚀 -->
+        <svg class="icon icon-48" viewBox="0 0 24 24"><path class="bw" d="M14 4l6 6-6 6-6-6 6-6zM14 4l-4 8-6 6"/></svg>
+        <div class="feature-title">Под услуги</div>
         <p class="feature-desc">Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки.</p>
       </div>
-
       <div class="feature-card slide-up">
-        <div class="feature-emoji">🔄</div>
-        <h3 class="feature-title">Возврат «молчунов»</h3>
-        <p class="feature-desc">Сценарии для повторных записей и возврата «остывших» лидов.</p>
+        <!-- 🔄 -->
+        <svg class="icon icon-48" viewBox="0 0 24 24"><path class="bw" d="M3 12a9 9 0 0115-6l2-2v6h-6l2-2A6 6 0 106 12"/></svg>
+        <div class="feature-title">Возврат “молчунов”</div>
+        <p class="feature-desc">Сценарии для повторных записей и возврата “остывших” лидов.</p>
       </div>
-
       <div class="feature-card slide-up">
-        <div class="feature-emoji">📖</div>
-        <h3 class="feature-title">Гайд внедрения</h3>
+        <!-- 📖 -->
+        <svg class="icon icon-48" viewBox="0 0 24 24"><path class="bw" d="M4 4h8v16H4zM12 4h8v16h-8"/></svg>
+        <div class="feature-title">Гайд внедрения</div>
         <p class="feature-desc">Старт за 1 день — пошаговый план + стандарты для команды.</p>
       </div>
-
       <div class="feature-card slide-up">
-        <div class="feature-emoji">✅</div>
-        <h3 class="feature-title">Итог</h3>
+        <!-- ✅ -->
+        <svg class="icon icon-48" viewBox="0 0 24 24"><path class="bw" d="M5 13l4 4L19 7"/></svg>
+        <div class="feature-title">Итог</div>
         <p class="feature-desc">Больше записей, выше средний чек, меньше времени в переписке.</p>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="section-header slide-up" style="margin-top:64px">
-      <h2 class="section-title">Кому подходят <span class="gradient-text">скрипты</span></h2>
-      <p class="section-subtitle"></p>
+<!-- 6) CONVERSION -->
+<section class="conversion">
+  <div class="container">
+    <h2 class="section-title" style="color:#fff">Хватит терять деньги из-за неправильных слов</h2>
+    <p class="section-subtitle" style="color:#e5e7eb">Внедри скрипты моментально и начни получать больше записей уже сегодня</p>
+    <a href="#pricing" class="btn-white">
+      <svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Купить
+    </a>
+    <div class="conv-pay">
+      <span>Доступ сразу</span>
+      <span class="conv-pill">Apple Pay</span>
+      <span class="conv-pill">Google Pay</span>
     </div>
+  </div>
+</section>
 
-    <div class="features-grid">
-      <div class="feature-card slide-up">
-        <div class="feature-emoji">✂️</div>
-        <h3 class="feature-title">Владельцам салонов и студий</h3>
-        <p class="feature-desc">Стандарт ответов, скорость и контроль: все отвечают одинаково сильно.</p>
-      </div>
-      <div class="feature-card slide-up">
-        <div class="feature-emoji">🏥</div>
-        <h3 class="feature-title">Медицинским центрам</h3>
-        <p class="feature-desc">Админы закрывают заявки, врачи работают с реальными пациентами.</p>
-      </div>
-      <div class="feature-card slide-up">
-        <div class="feature-emoji">👥</div>
-        <h3 class="feature-title">Мастерам-универсалам</h3>
-        <p class="feature-desc">Ответы на все типовые ситуации — быстрее к записи, увереннее в чате.</p>
-      </div>
-      <div class="feature-card slide-up">
-        <div class="feature-emoji">👤</div>
-        <h3 class="feature-title">Узким специалистам</h3>
-        <p class="feature-desc">Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки под услугу.</p>
+<!-- 7) БОНУСЫ -->
+<section class="bonuses">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Бонусы при покупке 🎉</h2>
+      <p class="section-subtitle">Суммарная ценность — 79€. Сегодня идут бесплатно со скриптами.</p>
+    </div>
+    <div class="bonus-wrap">
+      <div class="bonus-grid">
+        <!-- Гайд 1 -->
+        <div class="bonus-card">
+          <div class="gift orange">
+            <svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M3 8h18v12H3zM3 8h18M12 8v12"/><path class="bw" d="M7 6a2.5 2.5 0 105 0C12 4 10 3 7 6zM12 6a2.5 2.5 0 105 0c0-2-2-3-5 0z"/></svg>
+          </div>
+          <div>
+            <div class="bonus-title">Гайд 1</div>
+            <div class="bonus-desc">Работа с клиентской базой — повторные записи без рекламы.</div>
+            <div class="bonus-value"><span class="bonus-old">27€</span><span class="bonus-free">0€</span></div>
+          </div>
+        </div>
+        <!-- Чек-лист -->
+        <div class="bonus-card">
+          <div class="gift green">
+            <svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M3 8h18v12H3zM3 8h18M12 8v12"/><path class="bw" d="M7 6a2.5 2.5 0 105 0C12 4 10 3 7 6zM12 6a2.5 2.5 0 105 0c0-2-2-3-5 0z"/></svg>
+          </div>
+          <div>
+            <div class="bonus-title">Чек-лист</div>
+            <div class="bonus-desc">Платные и бесплатные способы — где взять заявки сегодня.</div>
+            <div class="bonus-value"><span class="bonus-old">32€</span><span class="bonus-free">0€</span></div>
+          </div>
+        </div>
+        <!-- Гайд 2 -->
+        <div class="bonus-card">
+          <div class="gift blue">
+            <svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M3 8h18v12H3zM3 8h18M12 8v12"/><path class="bw" d="M7 6a2.5 2.5 0 105 0C12 4 10 3 7 6zM12 6a2.5 2.5 0 105 0c0-2-2-3-5 0z"/></svg>
+          </div>
+          <div>
+            <div class="bonus-title">Гайд 2</div>
+            <div class="bonus-desc">5 этапов продаж на консультации — мягкий апсейл доп.услуг.</div>
+            <div class="bonus-value"><span class="bonus-old">20€</span><span class="bonus-free">0€</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- 8) ЧТО ИЗМЕНИТСЯ СРАЗУ -->
+<section class="changes">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Что изменится сразу</h2>
+    </div>
+    <ul class="change-list">
+      <li class="change-item">
+        <span class="ok"><svg viewBox="0 0 24 24"><path class="bw" d="M5 13l4 4L19 7"/></svg></span>
+        <span>Перестанешь терять заявки из-за слабых ответов.</span>
+      </li>
+      <li class="change-item">
+        <span class="ok"><svg viewBox="0 0 24 24"><path class="bw" d="M5 13l4 4L19 7"/></svg></span>
+        <span>Начнёшь закрывать больше записей уже с первого дня.</span>
+      </li>
+      <li class="change-item">
+        <span class="ok"><svg viewBox="0 0 24 24"><path class="bw" d="M5 13l4 4L19 7"/></svg></span>
+        <span>Повысишь средний чек через правильные предложения.</span>
+      </li>
+      <li class="change-item">
+        <span class="ok"><svg viewBox="0 0 24 24"><path class="bw" d="M5 13l4 4L19 7"/></svg></span>
+        <span>Станешь увереннее — на всё есть готовый ответ.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- 9) ПОЛНЫЙ ПАКЕТ -->
 <section class="pricing" id="pricing">
   <div class="container">
-    <div class="section-header slide-up">
-      <h2 class="section-title">Полный <span class="gradient-text">пакет</span></h2>
-      <p class="section-subtitle"></p>
+    <div class="section-header">
+      <h2 class="section-title">Полный пакет</h2>
     </div>
 
     <div class="price-card slide-up">
@@ -317,67 +489,60 @@
       </div>
 
       <div class="price-amount">
-        <span class="old-price">.</span>
         <span class="new-price">19€</span>
       </div>
 
-      <ul class="price-features">
-        <li><span class="feature-check">✓</span><span>Доступ к материалам моментально после оплаты</span></li>
-      </ul>
-
-      <a class="cta-button" style="width:100%;justify-content:center" href="#">
+      <a class="price-btn" href="#">
+        <svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M5 12h14M12 5l7 7-7 7"/></svg>
         Купить
       </a>
 
-      <!-- Заглушки методов оплаты без текста -->
-      <div class="payments" aria-hidden="true">
-        <div class="payment-method"></div>
-        <div class="payment-method"></div>
-        <div class="payment-method"></div>
-        <div class="payment-method"></div>
-        <div class="payment-method"></div>
+      <div class="payline-center">
+        <span>Доступ сразу</span>
+        <span class="pay-pill-dark">Apple Pay</span>
+        <span class="pay-pill-dark">Google Pay</span>
       </div>
+      <p class="price-note">Доступ к материалам моментально после оплаты</p>
     </div>
   </div>
 </section>
 
+<!-- 10) FAQ -->
 <section class="faq">
   <div class="container">
-    <div class="section-header slide-up">
+    <div class="section-header">
       <h2 class="section-title">FAQ</h2>
     </div>
 
     <div class="faq-grid">
-      <div class="faq-item slide-up">
-        <div class="faq-header">Сработает в моей нише?<div class="faq-icon">▼</div></div>
+      <div class="faq-item">
+        <div class="faq-header">Сработает в моей нише?<span><svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M6 9l6 6 6-6"/></svg></span></div>
         <div class="faq-body"><p>Да. База универсальная + блоки под ногти/брови/ресницы/волосы/косметологию/перманент.</p></div>
       </div>
 
-      <div class="faq-item slide-up">
-        <div class="faq-header">Не будет ли звучать «по-скриптовому»?<div class="faq-icon">▼</div></div>
+      <div class="faq-item">
+        <div class="faq-header">Не будет ли звучать “по-скриптовому”?<span><svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M6 9l6 6 6-6"/></svg></span></div>
         <div class="faq-body"><p>Нет. Формулировки живые, адаптируешь под свой тон. Главное — следовать алгоритму.</p></div>
       </div>
 
-      <div class="faq-item slide-up">
-        <div class="faq-header">Зачем это админам?<div class="faq-icon">▼</div></div>
+      <div class="faq-item">
+        <div class="faq-header">Зачем это админам?<span><svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M6 9l6 6 6-6"/></svg></span></div>
         <div class="faq-body"><p>Единый стандарт повышает конверсию, скорость и управляемость. Новички включаются быстрее.</p></div>
       </div>
 
-      <div class="faq-item slide-up">
-        <div class="faq-header">Когда будут результаты?<div class="faq-icon">▼</div></div>
+      <div class="faq-item">
+        <div class="faq-header">Когда будут результаты?<span><svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M6 9l6 6 6-6"/></svg></span></div>
         <div class="faq-body"><p>Часто — в первые 24 часа: готовые фразы экономят время и быстрее ведут к записи.</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="cta-section">
-  <div class="container">
-    <h2 class="cta-title slide-up">Хватит терять деньги из-за неправильных слов</h2>
-    <p class="cta-subtitle slide-up">Внедри скрипты моментально и начни получать больше записей уже сегодня</p>
-    <a href="#pricing" class="cta-white slide-up">Купить</a>
-  </div>
-</section>
+<!-- 11) Sticky CTA -->
+<div class="sticky" onclick="scrollToPrice()">
+  <svg class="icon" viewBox="0 0 24 24"><path class="bw" d="M5 12h14M12 5l7 7-7 7"/></svg>
+  Готовые скрипты — 19€ • Купить сейчас
+</div>
 
 <footer class="footer">
   <div class="container">
@@ -387,15 +552,19 @@
 
 <script>
 function scrollToPrice(){document.getElementById('pricing').scrollIntoView({behavior:'smooth'})}
+
+// FAQ toggle
 document.querySelectorAll('.faq-header').forEach(h=>{
   h.addEventListener('click',()=>{
-    const it=h.parentElement, on=it.classList.contains('active');
-    document.querySelectorAll('.faq-item').forEach(x=>x.classList.remove('active'));
-    if(!on) it.classList.add('active');
-  })
+    const it=h.parentElement;
+    it.classList.toggle('active');
+  });
 });
+
+// Reveal
 const obs=new IntersectionObserver((en)=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('.slide-up,.slide-left,.slide-right').forEach(el=>obs.observe(el));
+document.querySelectorAll('.slide-up').forEach(el=>obs.observe(el));
 </script>
+
 </body>
 </html>
