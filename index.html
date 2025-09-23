@@ -1,230 +1,401 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Beauty Scripts — сообщения в деньги</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #D54B2A;
-      --secondary: #F06A3F;
-      --bg: #ffffff;
-      --dark: #111;
-      --muted: #666;
-      --gray: #f6f7f8;
-      --gradient: linear-gradient(135deg,#D54B2A,#F06A3F);
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Beauty Scripts — сообщения в деньги</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#FF5B5B;
+    --primary-dark:#E64545;
+    --secondary:#FFE5E5;
+    --success:#00D68F;
+    --warning:#FFB94D;
+    --dark:#0F172A;
+    --gray:#64748B;
+    --light-gray:#F1F5F9;
+    --white:#FFFFFF;
+    --gradient:linear-gradient(135deg, #FF5B5B 0%, #FF8E53 100%);
+    --shadow-sm:0 2px 4px rgba(0,0,0,0.06);
+    --shadow:0 10px 25px rgba(0,0,0,0.08);
+    --shadow-lg:0 25px 50px rgba(0,0,0,0.12);
+    --radius:16px;
+    --transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+  body{font-family:'Manrope',sans-serif;color:var(--dark);background:var(--white);line-height:1.6;font-size:16px}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px}
 
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:"Inter",sans-serif;color:var(--dark);background:var(--bg);line-height:1.6}
-    h1,h2,h3{font-weight:800}
-    h1{font-size:clamp(34px,5vw,52px);line-height:1.1}
-    h2{font-size:clamp(26px,4vw,36px);margin-bottom:20px;text-align:center}
-    h3{font-size:20px;margin-bottom:8px}
-    p{margin-bottom:12px}
-    .container{max-width:1140px;margin:0 auto;padding:0 20px}
-    .section{padding:70px 0}
-    .btn{display:inline-block;padding:16px 32px;border-radius:40px;font-weight:700;color:#fff;text-decoration:none;background:var(--gradient);transition:.2s}
-    .btn:hover{filter:brightness(1.1)}
+  /* Header */
+  .header{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);z-index:1000;padding:20px 0;box-shadow:var(--shadow-sm)}
+  .header-content{display:flex;justify-content:space-between;align-items:center}
+  .logo{font-size:24px;font-weight:800;color:var(--primary)}
+  .header-btn{padding:12px 32px;background:var(--gradient);color:var(--white);border:none;border-radius:50px;font-weight:600;cursor:pointer;transition:var(--transition)}
+  .header-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 
-    /* hero */
-    .hero{padding:140px 0;text-align:center;color:#fff;background:linear-gradient(180deg,rgba(0,0,0,.65),rgba(0,0,0,.65)),url('/images/hero.jpg') center/cover no-repeat}
-    .hero p{max-width:720px;margin:16px auto 28px;font-size:18px}
+  /* Hero */
+  .hero{padding:140px 0 80px;background:linear-gradient(135deg, #FFF5F5 0%, #FFE5E5 100%);position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle, rgba(255,91,91,0.1) 0%, transparent 70%);border-radius:50%}
+  .hero-content{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:1}
+  .hero-text h1{font-size:clamp(36px,5vw,56px);line-height:1.1;font-weight:800;margin-bottom:24px;color:var(--dark)}
+  .gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero-subtitle{font-size:20px;color:var(--gray);margin-bottom:32px;line-height:1.6}
+  .hero-stats{display:flex;gap:32px;margin-bottom:40px}
+  .stat-item{display:flex;flex-direction:column}
+  .stat-number{font-size:32px;font-weight:800;color:var(--primary)}
+  .stat-label{font-size:14px;color:var(--gray)}
+  .cta-button{display:inline-flex;align-items:center;gap:12px;padding:20px 40px;background:var(--gradient);color:var(--white);border:none;border-radius:50px;font-size:18px;font-weight:700;cursor:pointer;transition:var(--transition);text-decoration:none}
+  .cta-button:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(255,91,91,0.3)}
+  .hero-visual{position:relative}
+  .hero-card{background:var(--white);border-radius:24px;padding:32px;box-shadow:var(--shadow-lg);transform:rotate(-2deg)}
+  .mini-card{position:absolute;background:var(--white);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+  .mini-card.top{top:-30px;right:-30px;transform:rotate(5deg)}
+  .mini-card.bottom{bottom:-30px;left:-30px;transform:rotate(-5deg)}
 
-    /* card blocks */
-    .card{background:#fff;border:1px solid #eee;border-radius:18px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.06);transition:.2s}
-    .card:hover{transform:translateY(-4px)}
-    .grid{display:grid;gap:20px}
-    .grid-2{grid-template-columns:repeat(2,1fr)}
-    .grid-3{grid-template-columns:repeat(3,1fr)}
+  /* Problem */
+  .problem{padding:100px 0;background:var(--light-gray)}
+  .section-header{text-align:center;margin-bottom:64px}
+  .section-title{font-size:clamp(32px,4vw,48px);font-weight:800;margin-bottom:16px}
+  .section-subtitle{font-size:18px;color:var(--gray)}
+  .comparison-container{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:1000px;margin:0 auto}
+  .comparison-card{background:var(--white);border-radius:var(--radius);padding:40px;position:relative}
+  .comparison-card.negative{border:2px solid #FFE5E5}
+  .comparison-card.positive{border:2px solid #D4F4E4;transform:scale(1.05)}
+  .card-badge{position:absolute;top:-16px;left:32px;padding:8px 20px;border-radius:24px;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:1px}
+  .negative .card-badge{background:var(--primary);color:var(--white)}
+  .positive .card-badge{background:var(--success);color:var(--white)}
+  .comparison-list{list-style:none;margin-top:24px}
+  .comparison-list li{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;font-size:15px}
+  .list-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:bold;margin-top:2px}
+  .negative .list-icon{background:#FFE5E5;color:var(--primary)}
+  .positive .list-icon{background:#D4F4E4;color:var(--success)}
 
-    /* comparison */
-    .comparison{display:grid;gap:20px;grid-template-columns:1fr 1fr;margin-top:30px}
-    .comparison h3{margin-bottom:12px}
-    .comparison ul{list-style:none;padding:0}
-    .comparison li{margin:10px 0;font-size:16px}
+  /* Features */
+  .features{padding:100px 0;background:var(--white)}
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:32px;margin-top:64px}
+  .feature-card{background:var(--light-gray);border-radius:var(--radius);padding:40px;transition:var(--transition);position:relative;overflow:hidden}
+  .feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradient);transform:scaleX(0);transition:var(--transition)}
+  .feature-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
+  .feature-card:hover::before{transform:scaleX(1)}
+  .feature-emoji{font-size:48px;margin-bottom:24px}
+  .feature-title{font-size:20px;font-weight:700;margin-bottom:12px}
+  .feature-desc{color:var(--gray);font-size:15px;line-height:1.6}
 
-    /* features / bonuses */
-    .features .card h3{color:var(--primary)}
+  /* Pricing */
+  .pricing{padding:100px 0;background:linear-gradient(135deg, #FFF5F5 0%, #FFE5E5 100%)}
+  .price-card{max-width:600px;margin:64px auto 0;background:var(--white);border-radius:32px;padding:48px;box-shadow:0 30px 60px rgba(0,0,0,0.1);position:relative}
+  .discount-badge{position:absolute;top:-20px;right:40px;background:transparent;color:transparent;padding:12px 24px;border-radius:50px;font-weight:700;font-size:14px}
+  .price-header{text-align:center;margin-bottom:40px}
+  .price-title{font-size:28px;font-weight:800;margin-bottom:8px}
+  .price-subtitle{color:var(--gray)}
+  .price-amount{display:flex;align-items:baseline;justify-content:center;gap:16px;margin-bottom:40px}
+  .old-price{font-size:32px;color:#CBD5E1;text-decoration:line-through;visibility:hidden}
+  .new-price{font-size:64px;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .price-features{list-style:none;margin-bottom:40px}
+  .price-features li{display:flex;align-items:center;gap:16px;padding:16px;background:var(--light-gray);border-radius:12px;margin-bottom:12px}
+  .feature-check{width:28px;height:28px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--white);flex-shrink:0;font-weight:bold}
+  .payments{display:flex;justify-content:center;gap:12px;margin-top:32px;padding-top:32px;border-top:2px solid var(--light-gray)}
+  .payment-method{width:60px;height:40px;background:var(--light-gray);border-radius:8px;display:flex;align-items:center;justify-content:center;padding:8px}
+  .payment-method img{max-width:100%;max-height:100%}
 
-    /* checklist */
-    .checklist{list-style:none;display:grid;gap:12px;max-width:700px;margin:0 auto}
-    .checklist li{background:#f9f9f9;padding:14px;border-radius:12px}
+  /* Guarantee (unused text -> kept minimal visual) */
+  .guarantee{padding:0;background:var(--white)}
 
-    /* pricing */
-    .price-card{text-align:center;padding:40px;border:2px solid var(--primary);border-radius:24px;max-width:480px;margin:0 auto;background:#fff}
-    .price-card .price{font-size:44px;font-weight:800;color:var(--primary);margin:18px 0}
+  /* FAQ */
+  .faq{padding:100px 0;background:var(--light-gray)}
+  .faq-grid{max-width:800px;margin:64px auto 0}
+  .faq-item{background:var(--white);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;transition:var(--transition)}
+  .faq-item:hover{box-shadow:var(--shadow)}
+  .faq-header{padding:24px 32px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:17px}
+  .faq-icon{width:32px;height:32px;background:var(--light-gray);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+  .faq-item.active .faq-icon{background:var(--gradient);color:var(--white);transform:rotate(180deg)}
+  .faq-body{padding:0 32px;max-height:0;overflow:hidden;transition:all 0.3s ease}
+  .faq-item.active .faq-body{padding:0 32px 24px;max-height:300px}
 
-    /* faq */
-    .faq-item{border:1px solid #ddd;border-radius:12px;margin-bottom:10px;overflow:hidden}
-    .faq-q{padding:16px;font-weight:700;background:#fafafa;cursor:pointer}
-    .faq-a{display:none;padding:16px;color:#444;border-top:1px solid #eee}
-    .faq-item.active .faq-a{display:block}
+  /* CTA Section */
+  .cta-section{padding:100px 0;background:var(--gradient);color:var(--white);text-align:center}
+  .cta-title{font-size:clamp(32px,4vw,48px);font-weight:800;margin-bottom:24px}
+  .cta-subtitle{font-size:20px;opacity:0.95;margin-bottom:40px}
+  .cta-white{background:var(--white);color:var(--primary);padding:20px 48px;border-radius:50px;font-size:18px;font-weight:700;border:none;cursor:pointer;transition:var(--transition);display:inline-block;text-decoration:none}
+  .cta-white:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,0.2)}
 
-    /* sticky cta */
-    .sticky{position:fixed;bottom:0;left:0;right:0;background:var(--gradient);color:#fff;text-align:center;padding:12px;font-weight:700}
-  </style>
+  /* Footer */
+  .footer{padding:40px 0;background:var(--dark);color:var(--white);text-align:center}
+  .footer-text{opacity:0.8;font-size:14px}
+
+  /* Animations */
+  .slide-up{opacity:0;transform:translateY(40px);transition:all 0.6s cubic-bezier(0.4,0,0.2,1)}
+  .slide-up.visible{opacity:1;transform:translateY(0)}
+  .slide-left{opacity:0;transform:translateX(-40px);transition:all 0.6s cubic-bezier(0.4,0,0.2,1)}
+  .slide-left.visible{opacity:1;transform:translateX(0)}
+  .slide-right{opacity:0;transform:translateX(40px);transition:all 0.6s cubic-bezier(0.4,0,0.2,1)}
+  .slide-right.visible{opacity:1;transform:translateX(0)}
+
+  /* Responsive */
+  @media (max-width:768px){
+    .hero-content,.comparison-container{grid-template-columns:1fr;gap:40px}
+    .hero{padding:100px 0 60px}
+    .hero-stats{justify-content:space-around}
+    .comparison-card.positive{transform:none}
+    .features-grid{grid-template-columns:1fr}
+    .price-card{padding:32px 24px}
+    .new-price{font-size:48px}
+    .header-content{padding:0 16px}
+  }
+</style>
 </head>
 <body>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container">
-      <h1>Скрипты, которые превращают <span>сообщения в деньги</span></h1>
-      <p>Готовые диалоги: от первого сообщения до записи, апсейла и закрытия возражений. Результат — больше записей, выше средний чек, меньше времени на переписку.</p>
-      <a href="#pricing" class="btn">Купить</a>
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">Beauty Scripts</div>
+      <button class="header-btn" onclick="scrollToPrice()">Купить</button>
     </div>
-  </section>
+  </div>
+</header>
 
-  <!-- СЕЙЧАС -->
-  <section class="section">
-    <div class="container">
-      <h2>Сейчас</h2>
-      <div class="comparison">
-        <div class="card">
-          <h3>Без скриптов</h3>
-          <ul>
-            <li>Клиент пишет «Сколько стоит?» — отвечаете цену — тишина</li>
-            <li>На «я подумаю» нет следующего шага</li>
-            <li>Переписка тянется, клиент остывает</li>
-            <li>Из 10 заявок записывается 2–3</li>
-          </ul>
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text slide-up">
+        <h1>Скрипты, которые превращают <span class="gradient-text">сообщения в деньги</span></h1>
+        <p class="hero-subtitle">Готовые диалоги: от первого сообщения до записи, апсейла и закрытия возражений. Результат — больше записей, выше средний чек, меньше времени на переписку.</p>
+
+        <!-- пустые счетчики, чтобы не добавлять новый смысл -->
+        <div class="hero-stats" aria-hidden="true">
+          <div class="stat-item"><div class="stat-number">&nbsp;</div><div class="stat-label">&nbsp;</div></div>
+          <div class="stat-item"><div class="stat-number">&nbsp;</div><div class="stat-label">&nbsp;</div></div>
+          <div class="stat-item"><div class="stat-number">&nbsp;</div><div class="stat-label">&nbsp;</div></div>
         </div>
-        <div class="card">
-          <h3>Со скриптами</h3>
-          <ul>
-            <li>На любой вопрос — готовый ответ</li>
-            <li>Возражения закрываются мягко и без давления</li>
-            <li>До записи — за 3–5 сообщений</li>
-            <li>Из 10 заявок записывается 6–7</li>
-          </ul>
+
+        <a class="cta-button" href="#pricing">
+          Купить
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="hero-visual slide-right">
+        <!-- визуальные карточки без новых обещаний -->
+        <div class="hero-card">
+          <h3>💬 Готовые диалоги</h3>
+          <p style="margin-top:16px;font-size:14px;color:var(--gray)">Приветствие, цены, запись, напоминания, апсейл — копируй и вставляй.</p>
         </div>
+        <div class="mini-card top"><strong style="color:var(--success)">&nbsp;</strong><br><span style="font-size:12px">&nbsp;</span></div>
+        <div class="mini-card bottom"><strong style="color:var(--primary)">&nbsp;</strong><br><span style="font-size:12px">&nbsp;</span></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ПОЧЕМУ ВАЖНО -->
-  <section class="section">
-    <div class="container">
-      <h2>Почему это важно</h2>
-      <div class="grid grid-3">
-        <div class="card"><p>Сливаются деньги на рекламу</p></div>
-        <div class="card"><p>Тратится время впустую</p></div>
-        <div class="card"><p>Заявки уходят к конкуренту и теряется прибыль</p></div>
+<section class="problem">
+  <div class="container">
+    <div class="section-header slide-up">
+      <h2 class="section-title">Сейчас</h2>
+      <p class="section-subtitle"></p>
+    </div>
+
+    <div class="comparison-container">
+      <div class="comparison-card negative slide-left">
+        <span class="card-badge">Без скриптов</span>
+        <h3 style="margin-top:24px;margin-bottom:24px"></h3>
+        <ul class="comparison-list">
+          <li><span class="list-icon">✕</span><span>Клиент пишет «Сколько стоит?» — отвечаете цену — тишина</span></li>
+          <li><span class="list-icon">✕</span><span>На «я подумаю» нет следующего шага</span></li>
+          <li><span class="list-icon">✕</span><span>Переписка тянется, клиент остывает</span></li>
+          <li><span class="list-icon">✕</span><span>Из 10 заявок записывается 2–3</span></li>
+        </ul>
+      </div>
+
+      <div class="comparison-card positive slide-right">
+        <span class="card-badge">Со скриптами</span>
+        <h3 style="margin-top:24px;margin-bottom:24px"></h3>
+        <ul class="comparison-list">
+          <li><span class="list-icon">✓</span><span>На любой вопрос — готовый ответ</span></li>
+          <li><span class="list-icon">✓</span><span>Возражения закрываются мягко и без давления</span></li>
+          <li><span class="list-icon">✓</span><span>До записи — за 3–5 сообщений</span></li>
+          <li><span class="list-icon">✓</span><span>Из 10 заявок записывается 6–7</span></li>
+        </ul>
       </div>
     </div>
-  </section>
 
-  <!-- КОМУ ПОДХОДЯТ -->
-  <section class="section">
-    <div class="container">
-      <h2>Кому подходят скрипты</h2>
-      <div class="grid grid-2">
-        <div class="card"><h3>Владельцам салонов и студий</h3><p>Стандарт ответов, скорость и контроль: все отвечают одинаково сильно.</p></div>
-        <div class="card"><h3>Медицинским центрам</h3><p>Админы закрывают заявки, врачи работают с реальными пациентами.</p></div>
-        <div class="card"><h3>Мастерам-универсалам</h3><p>Ответы на все типовые ситуации — быстрее к записи, увереннее в чате.</p></div>
-        <div class="card"><h3>Узким специалистам</h3><p>Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки под услугу.</p></div>
+    <div class="section-header" style="margin-top:64px">
+      <h2 class="section-title">Почему это важно</h2>
+      <p class="section-subtitle">Сливаются деньги на рекламу • Тратится время впустую • Заявки уходят к конкуренту и теряется прибыль</p>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <div class="section-header slide-up">
+      <h2 class="section-title">Что получаете <span class="gradient-text">в системе</span></h2>
+      <p class="section-subtitle"></p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card slide-up">
+        <div class="feature-emoji">💬</div>
+        <h3 class="feature-title">Готовые диалоги</h3>
+        <p class="feature-desc">Приветствие, цены, запись, напоминания, апсейл — копируй и вставляй.</p>
+      </div>
+
+      <div class="feature-card slide-up">
+        <div class="feature-emoji">🛡️</div>
+        <h3 class="feature-title">Ответы на возражения</h3>
+        <p class="feature-desc">«Дорого», «далеко», «подумаю» — живые формулировки без давления.</p>
+      </div>
+
+      <div class="feature-card slide-up">
+        <div class="feature-emoji">🚀</div>
+        <h3 class="feature-title">Под услуги</h3>
+        <p class="feature-desc">Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки.</p>
+      </div>
+
+      <div class="feature-card slide-up">
+        <div class="feature-emoji">🔄</div>
+        <h3 class="feature-title">Возврат «молчунов»</h3>
+        <p class="feature-desc">Сценарии для повторных записей и возврата «остывших» лидов.</p>
+      </div>
+
+      <div class="feature-card slide-up">
+        <div class="feature-emoji">📖</div>
+        <h3 class="feature-title">Гайд внедрения</h3>
+        <p class="feature-desc">Старт за 1 день — пошаговый план + стандарты для команды.</p>
+      </div>
+
+      <div class="feature-card slide-up">
+        <div class="feature-emoji">✅</div>
+        <h3 class="feature-title">Итог</h3>
+        <p class="feature-desc">Больше записей, выше средний чек, меньше времени в переписке.</p>
       </div>
     </div>
-  </section>
 
-  <!-- ЧТО ПОЛУЧАЕТЕ -->
-  <section class="section features">
-    <div class="container">
-      <h2>Что получаете в системе</h2>
-      <div class="grid grid-3">
-        <div class="card"><h3>Готовые диалоги</h3><p>Приветствие, цены, запись, напоминания, апсейл — копируй и вставляй.</p></div>
-        <div class="card"><h3>Ответы на возражения</h3><p>«Дорого», «далеко», «подумаю» — живые формулировки без давления.</p></div>
-        <div class="card"><h3>Под услуги</h3><p>Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки.</p></div>
-        <div class="card"><h3>Возврат «молчунов»</h3><p>Сценарии для повторных записей и возврата «остывших» лидов.</p></div>
-        <div class="card"><h3>Гайд внедрения</h3><p>Старт за 1 день — пошаговый план + стандарты для команды.</p></div>
-        <div class="card"><h3>Итог</h3><p>Больше записей, выше средний чек, меньше времени в переписке.</p></div>
+    <div class="section-header slide-up" style="margin-top:64px">
+      <h2 class="section-title">Кому подходят <span class="gradient-text">скрипты</span></h2>
+      <p class="section-subtitle"></p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card slide-up">
+        <div class="feature-emoji">✂️</div>
+        <h3 class="feature-title">Владельцам салонов и студий</h3>
+        <p class="feature-desc">Стандарт ответов, скорость и контроль: все отвечают одинаково сильно.</p>
+      </div>
+      <div class="feature-card slide-up">
+        <div class="feature-emoji">🏥</div>
+        <h3 class="feature-title">Медицинским центрам</h3>
+        <p class="feature-desc">Админы закрывают заявки, врачи работают с реальными пациентами.</p>
+      </div>
+      <div class="feature-card slide-up">
+        <div class="feature-emoji">👥</div>
+        <h3 class="feature-title">Мастерам-универсалам</h3>
+        <p class="feature-desc">Ответы на все типовые ситуации — быстрее к записи, увереннее в чате.</p>
+      </div>
+      <div class="feature-card slide-up">
+        <div class="feature-emoji">👤</div>
+        <h3 class="feature-title">Узким специалистам</h3>
+        <p class="feature-desc">Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки под услугу.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CONVERSION -->
-  <section class="section" style="background:linear-gradient(180deg,rgba(0,0,0,.75),rgba(0,0,0,.65)),url('/images/hero.jpg') center/cover no-repeat;color:#fff;text-align:center">
-    <div class="container">
-      <h2>Хватит терять деньги из-за неправильных слов</h2>
-      <p>Внедри скрипты моментально и начни получать больше записей уже сегодня</p>
-      <a href="#pricing" class="btn">Купить</a>
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-header slide-up">
+      <h2 class="section-title">Полный <span class="gradient-text">пакет</span></h2>
+      <p class="section-subtitle"></p>
     </div>
-  </section>
 
-  <!-- БОНУСЫ -->
-  <section class="section">
-    <div class="container">
-      <h2>Бонусы при покупке 🎉</h2>
-      <p style="text-align:center">Суммарная ценность — 79€. Сегодня идут бесплатно со скриптами.</p>
-      <div class="grid grid-3">
-        <div class="card"><h3>🎁 Гайд 1</h3><p>Работа с клиентской базой — повторные записи без рекламы.</p><p><s>27€</s> 0€</p></div>
-        <div class="card"><h3>🎁 Чек-лист</h3><p>Платные и бесплатные способы — где взять заявки сегодня.</p><p><s>32€</s> 0€</p></div>
-        <div class="card"><h3>🎁 Гайд 2</h3><p>5 этапов продаж на консультации — мягкий апсейл доп.услуг.</p><p><s>20€</s> 0€</p></div>
+    <div class="price-card slide-up">
+      <div class="price-header">
+        <h3 class="price-title">Полный пакет + 3 бонуса</h3>
+        <p class="price-subtitle">Все скрипты + персонализация + бонусы</p>
       </div>
-    </div>
-  </section>
 
-  <!-- ЧТО ИЗМЕНИТСЯ -->
-  <section class="section">
-    <div class="container">
-      <h2>Что изменится сразу</h2>
-      <ul class="checklist">
-        <li>Перестанешь терять заявки из-за слабых ответов.</li>
-        <li>Начнёшь закрывать больше записей уже с первого дня.</li>
-        <li>Повысишь средний чек через правильные предложения.</li>
-        <li>Станешь увереннее — на всё есть готовый ответ.</li>
+      <div class="price-amount">
+        <span class="old-price">.</span>
+        <span class="new-price">19€</span>
+      </div>
+
+      <ul class="price-features">
+        <li><span class="feature-check">✓</span><span>Доступ к материалам моментально после оплаты</span></li>
       </ul>
-    </div>
-  </section>
 
-  <!-- ПАКЕТ -->
-  <section class="section" id="pricing">
-    <div class="container">
-      <h2>Полный пакет</h2>
-      <div class="price-card">
-        <h3>Полный пакет + 3 бонуса</h3>
-        <div class="price">19€</div>
-        <p>Все скрипты + персонализация + бонусы</p>
-        <a href="#" class="btn">Купить</a>
-        <p style="font-size:14px;color:var(--muted)">Доступ к материалам моментально после оплаты</p>
-      </div>
-    </div>
-  </section>
+      <a class="cta-button" style="width:100%;justify-content:center" href="#">
+        Купить
+      </a>
 
-  <!-- FAQ -->
-  <section class="section">
-    <div class="container">
-      <h2>FAQ</h2>
-      <div class="faq-item">
-        <div class="faq-q">Сработает в моей нише?</div>
-        <div class="faq-a">Да. База универсальная + блоки под ногти/брови/ресницы/волосы/косметологию/перманент.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Не будет ли звучать «по-скриптовому»?</div>
-        <div class="faq-a">Нет. Формулировки живые, адаптируешь под свой тон. Главное — следовать алгоритму.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Зачем это админам?</div>
-        <div class="faq-a">Единый стандарт повышает конверсию, скорость и управляемость. Новички включаются быстрее.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Когда будут результаты?</div>
-        <div class="faq-a">Часто — в первые 24 часа: готовые фразы экономят время и быстрее ведут к записи.</div>
+      <!-- Заглушки методов оплаты без текста -->
+      <div class="payments" aria-hidden="true">
+        <div class="payment-method"></div>
+        <div class="payment-method"></div>
+        <div class="payment-method"></div>
+        <div class="payment-method"></div>
+        <div class="payment-method"></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Sticky CTA -->
-  <div class="sticky">Готовые скрипты — 19€ • Купить сейчас</div>
+<section class="faq">
+  <div class="container">
+    <div class="section-header slide-up">
+      <h2 class="section-title">FAQ</h2>
+    </div>
 
-  <script>
-    document.querySelectorAll('.faq-q').forEach(q=>{
-      q.addEventListener('click',()=>{
-        q.parentElement.classList.toggle('active')
-      })
-    })
-  </script>
+    <div class="faq-grid">
+      <div class="faq-item slide-up">
+        <div class="faq-header">Сработает в моей нише?<div class="faq-icon">▼</div></div>
+        <div class="faq-body"><p>Да. База универсальная + блоки под ногти/брови/ресницы/волосы/косметологию/перманент.</p></div>
+      </div>
+
+      <div class="faq-item slide-up">
+        <div class="faq-header">Не будет ли звучать «по-скриптовому»?<div class="faq-icon">▼</div></div>
+        <div class="faq-body"><p>Нет. Формулировки живые, адаптируешь под свой тон. Главное — следовать алгоритму.</p></div>
+      </div>
+
+      <div class="faq-item slide-up">
+        <div class="faq-header">Зачем это админам?<div class="faq-icon">▼</div></div>
+        <div class="faq-body"><p>Единый стандарт повышает конверсию, скорость и управляемость. Новички включаются быстрее.</p></div>
+      </div>
+
+      <div class="faq-item slide-up">
+        <div class="faq-header">Когда будут результаты?<div class="faq-icon">▼</div></div>
+        <div class="faq-body"><p>Часто — в первые 24 часа: готовые фразы экономят время и быстрее ведут к записи.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-title slide-up">Хватит терять деньги из-за неправильных слов</h2>
+    <p class="cta-subtitle slide-up">Внедри скрипты моментально и начни получать больше записей уже сегодня</p>
+    <a href="#pricing" class="cta-white slide-up">Купить</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p class="footer-text">© 2024 Beauty Scripts. Все права защищены.</p>
+  </div>
+</footer>
+
+<script>
+function scrollToPrice(){document.getElementById('pricing').scrollIntoView({behavior:'smooth'})}
+document.querySelectorAll('.faq-header').forEach(h=>{
+  h.addEventListener('click',()=>{
+    const it=h.parentElement, on=it.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(x=>x.classList.remove('active'));
+    if(!on) it.classList.add('active');
+  })
+});
+const obs=new IntersectionObserver((en)=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.slide-up,.slide-left,.slide-right').forEach(el=>obs.observe(el));
+</script>
 </body>
 </html>
