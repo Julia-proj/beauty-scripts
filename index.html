@@ -1,558 +1,125 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Beauty Scripts — Скрипты, которые превращают сообщения в деньги</title>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    /* Пудровая палитра à la refeel */
-    --rose: #F8E9EC;           /* розовая пудра */
-    --powder-blue:#EAF1F7;     /* синеватая пудра */
-    --sand:#F7F3EF;            /* тёплый беж */
-    --ink:#0F172A;             /* основной текст */
-    --muted:#65708A;
-    --white:#fff;
-    --success:#10B981;
-    --cta:#FF7A59;             /* акцент (тёпло-оранжевый нюд) */
-    --cta-2:#FFB199;           /* для градиента */
-    --shadow-sm:0 4px 12px rgba(0,0,0,.06);
-    --shadow:0 18px 40px rgba(0,0,0,.10);
-    --shadow-lg:0 28px 60px rgba(0,0,0,.16);
-    --radius:18px;
-    --transition:all .35s cubic-bezier(.22,.61,.36,1);
-    --g-cta: linear-gradient(135deg,var(--cta),var(--cta-2));
-    --g-bonus: linear-gradient(135deg,#FFE7F0,#E8F4FF 60%,#F7F3EF);
-    --gold-glow: 0 0 22px rgba(255,199,0,.45), 0 0 6px rgba(255,199,0,.6) inset;
-  }
+:root{
+  --bg:#fffdfc;
+  --bg-2:#f9f6fb;
+  --bg-3:#f6f9ff;
+  --text:#202124;
+  --muted:#6b7280;
+  --accent:#ff7a3d;
+  --success:#2fb36d;
+  --gold:#d7b46a;
+  --card:#ffffff;
+  --shadow:0 10px 30px rgba(16,24,40,.08);
+  --radius:16px;
+  --gap:24px;
+  --hero-grad:linear-gradient(135deg,#ffe8ec,#eef0ff);
+  --bonus-grad:linear-gradient(135deg,#ffecec,#f0f3ff);
+}
 
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-  body{font-family:'Manrope',system-ui,sans-serif;color:var(--ink);background:var(--white);line-height:1.6}
+*{box-sizing:border-box}html{-webkit-font-smoothing:antialiased}body{
+  margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Manrope,Arial,sans-serif;color:var(--text);background:var(--bg)
+}
+img{max-width:100%;height:auto;display:block}
+.container{max-width:1120px;margin:0 auto;padding:0 24px}
+.center{text-align:center}.muted{color:var(--muted)}.narrow{max-width:720px;margin:0 auto}
 
-  .container{max-width:1200px;margin:0 auto;padding:0 24px}
-  a{text-decoration:none;color:inherit}
+.skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{left:16px;top:16px;width:auto;height:auto;z-index:10000;background:#000;color:#fff;padding:8px 12px;border-radius:8px}
 
-  /* Skip links */
-  .skip-links{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
-  .skip-links:focus-within{position:fixed;left:16px;top:16px;width:auto;height:auto;z-index:10000;background:#000;color:#fff;border-radius:10px}
-  .skip-links a{display:inline-block;padding:10px 14px}
+.site-header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-bottom:1px solid #eee}
+.header__row{display:flex;align-items:center;justify-content:space-between;min-height:64px}
+.logo{font-weight:800}
+.nav__link{color:var(--text);text-decoration:none;margin-right:16px}
+.read-progress{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--accent)}
 
-  /* Reading progress */
-  .progress{position:fixed;top:0;left:0;height:3px;background:var(--g-cta);width:0;z-index:1002}
+.section{padding:72px 0}
+.section--hero{padding:96px 0 72px;position:relative;overflow:hidden}
+.hero__bg{position:absolute;inset:-30% -10% auto -10%;height:60%;background:var(--hero-grad);filter:saturate(110%);border-radius:50%;transform:skewY(-6deg)}
+.hero__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+.hero__text h1{font-size:clamp(36px,4.5vw,48px);line-height:1.1;margin:0 0 16px}
+.sub{font-size:18px;color:var(--muted);margin:0 0 24px}
+.hero__cta{display:flex;flex-direction:column;gap:8px}
+.meta{font-size:14px;color:var(--muted)}
 
-  /* Header */
-  header{
-    position:sticky;top:0;z-index:1001;
-    background:rgba(255,255,255,.85);backdrop-filter:blur(10px);
-    border-bottom:1px solid rgba(15,23,42,.06)
-  }
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-  .logo{font-weight:800;font-size:22px;letter-spacing:.2px}
-  .buy-btn{
-    --min:48px;
-    display:inline-flex;align-items:center;gap:10px;
-    min-height:var(--min);padding:12px 22px;border-radius:999px;
-    background:var(--g-cta);color:#fff;font-weight:800;border:none;cursor:pointer;
-    box-shadow:var(--shadow-sm);transition:var(--transition);position:relative;isolation:isolate
-  }
-  .buy-btn::after{ /* shimmer */
-    content:"";position:absolute;inset:-2px;border-radius:inherit;
-    background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.35) 30%,transparent 60%);
-    transform:translateX(-120%);transition:transform .8s ease;pointer-events:none
-  }
-  .buy-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-  .buy-btn:hover::after{transform:translateX(120%)}
+.cards{display:grid;gap:24px}
+.cards--2{grid-template-columns:repeat(2,1fr)}
+.cards--3{grid-template-columns:repeat(3,1fr)}
+.cards--4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
+.card--soft{background:#fff}
+.card--bonus{background:#fff;border:1px solid #f0e9ff}
+.good{outline:2px solid rgba(47,179,109,.18)}
+.h2{font-size:clamp(28px,3.2vw,32px);line-height:1.2;margin:0 0 16px}
+.h3{font-size:22px;margin:0 0 8px}
+.h4{font-size:18px;margin:0 0 4px}
+.list{padding-left:18px}.list li{margin:8px 0}
 
-  /* Hero */
-  .hero{
-    position:relative;overflow:hidden;color:var(--ink);
-    background:linear-gradient(180deg, var(--rose), var(--sand) 60%);
-  }
-  .hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center;padding:110px 0 80px}
-  .h1{font-size:clamp(34px,5vw,54px);line-height:1.08;font-weight:900;margin-bottom:14px}
-  .accent{background:var(--g-cta);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .sub{font-size:18px;color:var(--muted);max-width:720px;margin-bottom:22px}
-  .meta{display:flex;gap:18px;align-items:center;color:#475569;font-size:14px}
-  .pay-icons{display:flex;gap:8px}
-  .pay{padding:6px 10px;border-radius:8px;background:#f3f4f6;font-weight:700;font-size:11px}
-  .hero-media{position:relative}
-  .hero-img{
-    width:100%;height:460px;border-radius:24px;box-shadow:var(--shadow-lg);object-fit:cover;object-position:center;
-    transform:translateZ(0); /* для GPU */
-  }
-  /* Parallax layer */
-  .parallax{
-    position:absolute;inset:-20%;background:url('/images/hero.jpg') center/cover no-repeat;z-index:-1;filter:saturate(.95) contrast(.98);
-    transform:translateY(0);
-  }
-  .hero-card{
-    position:absolute;left:-24px;bottom:-24px;background:var(--white);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);
-  }
-  .hero-card b{color:var(--success)}
+.section--powder{background:var(--bg-2)}
+.section--powder-blue{background:var(--bg-3)}
+.section--dark{background:#0f1320;color:#fff;text-align:center}
 
-  /* Comparison */
-  .comparison{background:var(--powder-blue);padding:84px 0}
-  .sec-title{font-size:clamp(28px,3.6vw,40px);font-weight:900;text-align:center;margin-bottom:12px}
-  .sec-sub{color:var(--muted);text-align:center;margin-bottom:40px}
-  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-  .card{
-    background:#fff;border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm);transition:var(--transition);position:relative
-  }
-  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-  .badge{position:absolute;top:-12px;left:22px;padding:8px 14px;border-radius:999px;font-weight:800;font-size:12px;color:#fff;letter-spacing:.6px}
-  .neg .badge{background:#EF4444}.pos .badge{background:#10B981}
-  .list{list-style:none;margin-top:10px}
-  .list li{display:flex;gap:10px;margin:10px 0;font-size:15px}
-  .x,.v{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:999px;font-weight:900}
-  .x{background:#FEE2E2;color:#EF4444}.v{background:#DCFCE7;color:#15803D}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+.features--3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;list-style:none;padding:0;margin:24px 0 0}
+.feature{display:flex;gap:12px;align-items:flex-start;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+.ico{width:28px;height:28px;opacity:.9}
+.ico--green{filter:hue-rotate(90deg) saturate(140%)}
 
-  /* Why important */
-  .why{background:var(--sand);padding:84px 0}
-  .icons{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:980px;margin:26px auto 0}
-  .icon-card{background:#fff;border-radius:16px;padding:22px;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow-sm)}
-  .ic{width:42px;height:42px;border:2px solid #0f172a;display:flex;align-items:center;justify-content:center;border-radius:10px}
+.tick{list-style:none;padding:0;margin:16px auto;max-width:760px}
+.tick li{position:relative;padding-left:30px;margin:10px 0}
+.tick li::before{content:"";position:absolute;left:0;top:7px;width:18px;height:18px;mask:url('/images/icons/check.svg') no-repeat 50% 50%/contain;background:var(--success)}
 
-  /* For whom */
-  .for{background:#fff;padding:84px 0}
-  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-  .for-card{background:var(--sand);border-radius:16px;padding:22px;box-shadow:var(--shadow-sm)}
-  .for-card h4{font-weight:800;margin-bottom:8px}
+.section--bonus{position:relative;background:var(--bonus-grad);overflow:hidden}
+.confetti{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 
-  /* What you get */
-  .get{background:#fff;padding:84px 0}
-  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .get-card{background:var(--powder-blue);border-radius:16px;padding:22px;box-shadow:var(--shadow-sm)}
-  .get-card h4{font-weight:800;margin-bottom:6px}
+.price{max-width:620px;margin:8px auto;padding:28px 24px;text-align:center}
+.amount{display:flex;justify-content:center;align-items:baseline;gap:8px;margin:8px 0 12px}
+.amount .eur{font-size:56px;font-weight:800;letter-spacing:-.02em}
+.price .note{font-size:13px;color:var(--muted)}
+.price .glow{box-shadow:0 0 0 0 rgba(215,180,106,.0)}
+.glow{animation:gold-glow 3s ease-in-out infinite}
+@keyframes gold-glow{
+  0%,100%{box-shadow:0 0 0 0 rgba(215,180,106,.0)}
+  50%{box-shadow:0 0 28px 0 rgba(215,180,106,.45)}
+}
 
-  /* Conversion band */
-  .conv{position:relative;padding:84px 0;background:linear-gradient(180deg,#0f172a,#111827);color:#fff}
-  .conv .overlay{position:absolute;inset:0;background:radial-gradient(1200px 300px at 50% -20%,rgba(255,255,255,.12),transparent)}
-  .conv .inner{position:relative}
-  .conv .cta{margin-top:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:12px 20px;font-weight:700;cursor:pointer}
+.btn--primary{background:var(--accent);color:#fff}
+.btn--lg{padding:16px 28px;font-size:18px}
+.btn:focus-visible{outline:3px solid #0002;outline-offset:3px}
+.shimmer{position:relative;overflow:hidden}
+.shimmer::after{content:"";position:absolute;inset:0;translate:-120% 0;transform:skewX(-20deg);width:60%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:shimmer 4s infinite}
+@keyframes shimmer{0%{translate:-120% 0}60%{translate:140% 0}100%{translate:140% 0}}
 
-  /* Bonuses */
-  .bonuses{padding:84px 0;background:var(--g-bonus)}
-  .bon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .bon-card{
-    position:relative;isolation:isolate;background:#fff;border-radius:20px;padding:22px;box-shadow:var(--shadow);overflow:hidden;
-    transition:transform .25s ease, box-shadow .25s ease;
-  }
-  .bon-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
-  .bon-price{font-weight:900;margin-top:8px}
-  .glow-price{display:inline-block;padding:2px 8px;border-radius:10px;box-shadow:var(--gold-glow);background:linear-gradient(180deg,#FFF7D6,#FFF1A6);font-weight:900}
-  /* конфетти контейнер */
-  .confetti{pointer-events:none;position:absolute;inset:0;z-index:3}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.reveal.is-visible{opacity:1;transform:none}
+.parallax{will-change:transform}
 
-  /* What changes immediately */
-  .now{background:#fff;padding:84px 0}
-  .now-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:900px;margin:22px auto 0}
-  .now-item{display:flex;gap:12px;align-items:flex-start;background:var(--sand);border-radius:14px;padding:14px}
-  .dot{width:18px;height:18px;border-radius:999px;background:#22C55E;flex:0 0 18px;margin-top:2px}
+.faq{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:16px;margin:12px 0}
+.faq>summary{cursor:pointer;font-weight:600}
+.faq[open]{outline:1px dashed #e6e6f6}
 
-  /* Pricing — Полный пакет */
-  .pricing{padding:84px 0;background:linear-gradient(180deg,var(--sand),var(--rose))}
-  .price-card{
-    max-width:680px;margin:26px auto 0;background:#fff;border-radius:28px;padding:36px;box-shadow:0 26px 70px rgba(0,0,0,.14);
-    position:relative;transform:translateZ(0); /* 3D */
-  }
-  .price-card::before{ /* мягкий 3D-ореол */
-    content:"";position:absolute;inset:-2px;border-radius:inherit;box-shadow:inset 0 0 30px rgba(0,0,0,.06), 0 30px 60px rgba(0,0,0,.08);
-    pointer-events:none
-  }
-  .price-amount{display:flex;justify-content:center;align-items:baseline;gap:10px;margin:14px 0 18px}
-  .new{font-size:64px;line-height:1;font-weight:900;background:var(--g-cta);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .old{font-size:24px;color:#9aa3b2;text-decoration:line-through}
-  .payrow{display:flex;justify-content:center;gap:10px;margin-top:16px}
-  .pay-mini{background:#f3f4f6;border-radius:8px;padding:8px 12px;font-weight:700;font-size:11px}
+.sticky-cta{position:sticky;bottom:0;z-index:1000;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-top:1px solid #eee}
+.sticky-cta__inner{display:flex;gap:16px;align-items:center;justify-content:space-between;max-width:1120px;margin:0 auto;padding:10px 16px}
 
-  /* FAQ */
-  .faq{background:#fff;padding:84px 0}
-  .faq-item{border-radius:14px;border:1px solid rgba(15,23,42,.08);margin:10px 0;overflow:hidden}
-  .faq-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;cursor:pointer;font-weight:700}
-  .faq-body{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;color:var(--muted);padding:0 20px}
-  .faq-item.active .faq-body{max-height:260px;padding:0 20px 18px}
-  .faq-icon{width:28px;height:28px;border-radius:999px;background:#f1f5f9;display:flex;align-items:center;justify-content:center}
+.modal[hidden]{display:none}
+.modal{position:fixed;inset:0;z-index:2000}
+.modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.4)}
+.modal__dialog{position:relative;z-index:1;max-width:420px;margin:10vh auto;background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:24px}
+.modal__close{position:absolute;top:8px;right:8px;border:0;background:transparent;font-size:24px;cursor:pointer}
 
-  /* CTA band */
-  .cta-band{padding:84px 0;background:var(--powder-blue);text-align:center}
-  .cta-title{font-size:clamp(28px,3.4vw,40px);font-weight:900;margin-bottom:10px}
-  .cta-sub{color:var(--muted);margin-bottom:18px}
+@media (max-width:960px){
+  .hero__grid{grid-template-columns:1fr}
+  .cards--4{grid-template-columns:repeat(2,1fr)}
+  .cards--3{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .cards--4,.cards--3,.cards--2{grid-template-columns:1fr}
+  .sticky-cta__inner{flex-direction:column;align-items:stretch}
+  .amount .eur{font-size:44px}
+}
 
-  /* Sticky CTA */
-  .sticky{
-    position:fixed;left:12px;right:12px;bottom:12px;z-index:1000;background:#0f172a;color:#fff;border-radius:999px;
-    display:flex;justify-content:center;gap:12px;align-items:center;padding:10px 14px;box-shadow:var(--shadow);font-weight:800
-  }
-  .sticky .buy-btn{box-shadow:none}
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .shimmer::after,.glow{animation:none}
+  .reveal{transition:none}
+}
 
-  /* Footer */
-  footer{padding:40px 0;background:#0f172a;color:#fff;text-align:center}
-
-  /* Utilities + motion */
-  .muted{color:var(--muted)} .center{text-align:center}
-  .mt-8{margin-top:8px}.mt-16{margin-top:16px}.mt-24{margin-top:24px}.mt-32{margin-top:32px}
-  .vis{opacity:0;transform:translateY(26px);transition:all .6s cubic-bezier(.22,.61,.36,1)}
-  .vis.show{opacity:1;transform:none}
-
-  @media (max-width:980px){
-    .hero-inner{grid-template-columns:1fr;gap:28px;padding:96px 0 64px}
-    .grid-2{grid-template-columns:1fr}
-    .grid-3{grid-template-columns:1fr}
-    .grid-4{grid-template-columns:1fr 1fr}
-    .bon-grid{grid-template-columns:1fr}
-    .icons{grid-template-columns:1fr}
-    .now-list{grid-template-columns:1fr}
-  }
-  @media (prefers-reduced-motion: reduce){
-    * {animation:none !important;transition:none !important}
-    .parallax{position:absolute;transform:none !important}
-  }
-</style>
-</head>
-<body>
-
-<nav class="skip-links" aria-label="Быстрые ссылки">
-  <a href="#main">К контенту</a>
-  <a href="#pricing">К покупке</a>
-</nav>
-
-<div class="progress" aria-hidden="true"></div>
-
-<header role="banner" aria-label="Верхнее меню">
-  <div class="container nav">
-    <div class="logo">Beauty Scripts</div>
-    <button class="buy-btn" aria-label="Купить" onclick="scrollToPrice()">Купить</button>
-  </div>
-</header>
-
-<main id="main">
-
-  <!-- HERO -->
-  <section class="hero" aria-label="Hero">
-    <div class="parallax" aria-hidden="true"></div>
-    <div class="container hero-inner">
-      <div class="vis">
-        <h1 class="h1">Скрипты, которые <span class="accent">превращают сообщения в деньги</span></h1>
-        <p class="sub">Готовые диалоги: от первого сообщения до записи, апсейла и закрытия возражений. Результат: <mark>больше записей</mark>, <mark>выше средний чек</mark>, меньше времени на переписку.</p>
-        <button class="buy-btn" aria-label="Купить сейчас" onclick="scrollToPrice()">Купить</button>
-        <div class="meta mt-16" aria-label="Способы оплаты">
-          <span class="muted">Доступ сразу</span>
-          <div class="pay-icons" aria-hidden="true">
-            <span class="pay">Apple Pay</span><span class="pay">Google Pay</span>
-          </div>
-        </div>
-      </div>
-      <div class="hero-media vis" aria-hidden="true">
-        <img src="/images/hero.jpg" alt="Переписка с клиентом — быстрая запись" class="hero-img" loading="lazy">
-        <div class="hero-card"><b>3–5 сообщений</b> до записи · минимум лишних слов</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Сравнение -->
-  <section class="comparison" aria-label="Сравнение сейчас/со скриптами">
-    <div class="container">
-      <h2 class="sec-title vis">Сейчас vs Со скриптами</h2>
-      <p class="sec-sub vis">Как меняется путь к записи после внедрения</p>
-      <div class="grid-2">
-        <article class="card neg vis" aria-label="Без скриптов">
-          <span class="badge">СЕЙЧАС</span>
-          <ul class="list mt-8">
-            <li><span class="x">✕</span><span>Клиент пишет «Сколько стоит?» — отвечаете цену — тишина</span></li>
-            <li><span class="x">✕</span><span>На «я подумаю» нет следующего шага</span></li>
-            <li><span class="x">✕</span><span>Переписка тянется, клиент остывает</span></li>
-            <li><span class="x">✕</span><span>Из 10 заявок записывается 2–3</span></li>
-          </ul>
-        </article>
-        <article class="card pos vis" aria-label="Со скриптами">
-          <span class="badge">ПОСЛЕ</span>
-          <ul class="list mt-8">
-            <li><span class="v">✓</span><span>На любой вопрос — готовый ответ</span></li>
-            <li><span class="v">✓</span><span>Возражения закрываются мягко и без давления</span></li>
-            <li><span class="v">✓</span><span>До записи — за 3–5 сообщений</span></li>
-            <li><span class="v">✓</span><span>Из 10 заявок записывается 6–7</span></li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Почему это важно -->
-  <section class="why" aria-labelledby="why-title">
-    <div class="container">
-      <h2 id="why-title" class="sec-title center vis">Почему это важно</h2>
-      <div class="icons">
-        <div class="icon-card vis"><div class="ic">€</div><div><b>Сливаются деньги на рекламу</b></div></div>
-        <div class="icon-card vis"><div class="ic">⏱</div><div><b>Тратится время впустую</b></div></div>
-        <div class="icon-card vis"><div class="ic">↗</div><div><b>Заявки уходят к конкуренту</b></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Кому подходят -->
-  <section class="for" aria-labelledby="for-title">
-    <div class="container">
-      <h2 id="for-title" class="sec-title center vis">Кому подходят скрипты</h2>
-      <div class="grid-4 mt-24">
-        <div class="for-card vis"><h4>Владельцам салонов и студий ✂</h4><p class="muted">Стандарт ответов, скорость и контроль: все отвечают одинаково сильно.</p></div>
-        <div class="for-card vis"><h4>Медицинским центрам ✚</h4><p class="muted">Админы закрывают заявки, врачи работают с реальными пациентами.</p></div>
-        <div class="for-card vis"><h4>Мастерам-универсалам 👥</h4><p class="muted">Ответы на типовые ситуации — быстрее к записи, увереннее в чате.</p></div>
-        <div class="for-card vis"><h4>Узким специалистам 👤</h4><p class="muted">Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Что получаете -->
-  <section class="get" aria-labelledby="get-title">
-    <div class="container">
-      <h2 id="get-title" class="sec-title center vis">Что получаете в системе</h2>
-      <div class="grid-3 mt-24">
-        <div class="get-card vis"><h4>Готовые диалоги 💬</h4><p class="muted">Приветствие, цены, запись, напоминания, апсейл — копируй и вставляй.</p></div>
-        <div class="get-card vis"><h4>Ответы на возражения 🛡</h4><p class="muted">«Дорого», «далеко», «подумаю» — живые формулировки без давления.</p></div>
-        <div class="get-card vis"><h4>Под услуги 🚀</h4><p class="muted">Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки.</p></div>
-        <div class="get-card vis"><h4>Возврат «молчунов» ↩</h4><p class="muted">Сценарии для повторных записей и возврата «остывших» лидов.</p></div>
-        <div class="get-card vis"><h4>Гайд внедрения 📘</h4><p class="muted">Старт за 1 день — пошаговый план + стандарты для команды.</p></div>
-        <div class="get-card vis"><h4>Итог ✅</h4><p class="muted">Больше записей, выше средний чек, меньше времени в переписке.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Conversion -->
-  <section class="conv" aria-label="Конверсионный блок">
-    <div class="overlay" aria-hidden="true"></div>
-    <div class="container inner center">
-      <h2 class="sec-title vis" style="color:#fff">Хватит терять деньги из-за неправильных слов</h2>
-      <p class="muted vis" style="color:#d1d5db">Внедри скрипты моментально и начни получать больше записей уже сегодня.</p>
-      <button class="buy-btn cta vis" onclick="scrollToPrice()">Купить</button>
-      <div class="mt-16 muted">Сейчас смотрят: <b id="watching">—</b> человек</div>
-    </div>
-  </section>
-
-  <!-- Бонусы -->
-  <section class="bonuses" aria-labelledby="bonuses-title">
-    <div class="container">
-      <h2 id="bonuses-title" class="sec-title center vis">Бонусы при покупке 🎉</h2>
-      <p class="center muted vis">Суммарная ценность — 79€. Сегодня идут бесплатно со скриптами.</p>
-      <div class="bon-grid mt-24">
-        <article class="bon-card vis" data-confetti>
-          <div class="confetti"></div>
-          <h4><span aria-hidden="true">🎁</span> Гайд 1</h4>
-          <p class="muted mt-8">Работа с клиентской базой — повторные записи без рекламы.</p>
-          <p class="bon-price mt-8"><span class="old">27€</span> → <span class="glow-price">0€</span></p>
-        </article>
-        <article class="bon-card vis" data-confetti>
-          <div class="confetti"></div>
-          <h4><span aria-hidden="true">🎁</span> Чек-лист</h4>
-          <p class="muted mt-8">Платные и бесплатные способы — где взять заявки сегодня.</p>
-          <p class="bon-price mt-8"><span class="old">32€</span> → <span class="glow-price">0€</span></p>
-        </article>
-        <article class="bon-card vis" data-confetti>
-          <div class="confetti"></div>
-          <h4><span aria-hidden="true">🎁</span> Гайд 2</h4>
-          <p class="muted mt-8">5 этапов продаж на консультации — мягкий апсейл доп. услуг.</p>
-          <p class="bon-price mt-8"><span class="old">20€</span> → <span class="glow-price">0€</span></p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Что изменится сразу -->
-  <section class="now" aria-labelledby="now-title">
-    <div class="container">
-      <h2 id="now-title" class="sec-title center vis">Что изменится сразу</h2>
-      <div class="now-list">
-        <div class="now-item vis"><span class="dot"></span><div>Перестанешь терять заявки из-за слабых ответов.</div></div>
-        <div class="now-item vis"><span class="dot"></span><div>Начнёшь закрывать больше записей уже с первого дня.</div></div>
-        <div class="now-item vis"><span class="dot"></span><div>Повысишь средний чек через правильные предложения.</div></div>
-        <div class="now-item vis"><span class="dot"></span><div>Станешь увереннее — на всё есть готовый ответ.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pricing -->
-  <section class="pricing" id="pricing" aria-labelledby="pricing-title">
-    <div class="container">
-      <h2 id="pricing-title" class="sec-title center vis">Полный пакет</h2>
-      <article class="price-card vis" aria-label="Полный пакет + 3 бонуса">
-        <h3 class="center" style="font-weight:900">Полный пакет + 3 бонуса</h3>
-        <div class="price-amount">
-          <span class="new">19€</span>
-        </div>
-        <p class="center muted">Все скрипты + персонализация + бонусы</p>
-        <div class="center mt-16">
-          <button class="buy-btn" aria-label="Купить полный пакет">Купить</button>
-          <div class="mt-8 muted">Доступ сразу · материалы приходят моментально после оплаты</div>
-        </div>
-        <div class="payrow mt-16" aria-hidden="true">
-          <div class="pay-mini">Apple Pay</div>
-          <div class="pay-mini">Google Pay</div>
-          <div class="pay-mini">Visa</div>
-          <div class="pay-mini">Mastercard</div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq" aria-labelledby="faq-title">
-    <div class="container">
-      <h2 id="faq-title" class="sec-title center vis">FAQ</h2>
-      <div class="faq-item vis">
-        <div class="faq-head" role="button" tabindex="0" aria-expanded="false">Сработает в моей нише?<div class="faq-icon">▼</div></div>
-        <div class="faq-body">Да. База универсальная + блоки под ногти/брови/ресницы/волосы/косметологию/перманент.</div>
-      </div>
-      <div class="faq-item vis">
-        <div class="faq-head" role="button" tabindex="0" aria-expanded="false">Не будет ли звучать «по-скриптовому»?<div class="faq-icon">▼</div></div>
-        <div class="faq-body">Нет. Формулировки живые, адаптируешь под свой тон. Главное — следовать алгоритму.</div>
-      </div>
-      <div class="faq-item vis">
-        <div class="faq-head" role="button" tabindex="0" aria-expanded="false">Зачем это админам?<div class="faq-icon">▼</div></div>
-        <div class="faq-body">Единый стандарт повышает конверсию, скорость и управляемость. Новички включаются быстрее.</div>
-      </div>
-      <div class="faq-item vis">
-        <div class="faq-head" role="button" tabindex="0" aria-expanded="false">Когда будут результаты?<div class="faq-icon">▼</div></div>
-        <div class="faq-body">Часто — в первые 24 часа: готовые фразы экономят время и быстрее ведут к записи.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA band -->
-  <section class="cta-band" aria-label="Финальный призыв">
-    <div class="container">
-      <h2 class="cta-title vis">Готовые скрипты — 19€</h2>
-      <p class="cta-sub vis">Купите сейчас и получите доступ сразу</p>
-      <button class="buy-btn vis" onclick="scrollToPrice()">Купить сейчас</button>
-    </div>
-  </section>
-
-</main>
-
-<!-- Sticky CTA -->
-<div class="sticky" role="region" aria-label="Закрепленный CTA">
-  <span>Готовые скрипты — 19€</span>
-  <button class="buy-btn" onclick="scrollToPrice()">Купить сейчас</button>
-</div>
-
-<footer role="contentinfo">
-  <div class="container">
-    <p>© 2025 Beauty Scripts</p>
-  </div>
-</footer>
-
-<!-- Exit-intent popup (desktop) -->
-<dialog id="exit" aria-label="Скидка при уходе">
-  <form method="dialog" style="padding:0;border:none;background:transparent">
-    <div style="background:#fff;padding:24px;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.35);min-width:320px;max-width:90vw">
-      <h3 style="font-weight:900;margin-bottom:6px">Почти ушли…</h3>
-      <p class="muted">Заберите скрипты сейчас и получите 3 бонуса бесплатно.</p>
-      <div class="mt-16" style="display:flex;gap:10px;justify-content:flex-end">
-        <button class="buy-btn" onclick="scrollToPrice()">Купить</button>
-        <button style="padding:10px 14px;border-radius:10px;border:1px solid #e5e7eb;background:#fff;cursor:pointer">Позже</button>
-      </div>
-    </div>
-  </form>
-</dialog>
-
-<script>
-  /* Smooth scroll to pricing */
-  function scrollToPrice(){ document.getElementById('pricing').scrollIntoView({behavior:'smooth'}) }
-
-  /* Intersection animations */
-  const io = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }});
-  },{threshold:.12, rootMargin:"0px 0px -60px 0px"});
-  document.querySelectorAll('.vis').forEach(el=>io.observe(el));
-
-  /* Reading progress */
-  const progress = document.querySelector('.progress');
-  const onScroll = ()=>{
-    const h = document.documentElement;
-    const sc = h.scrollTop, max = h.scrollHeight - h.clientHeight;
-    progress.style.width = (sc / Math.max(max,1))*100 + '%';
-    /* Parallax */
-    const p = document.querySelector('.parallax');
-    if (p) p.style.transform = `translateY(${sc * -0.12}px)`; // лёгкий параллакс
-  };
-  let ticking = false;
-  window.addEventListener('scroll', ()=>{ if(!ticking){ window.requestAnimationFrame(()=>{ onScroll(); ticking=false; }); ticking=true; }}, {passive:true});
-  onScroll();
-
-  /* FAQ */
-  document.querySelectorAll('.faq-head').forEach(h=>{
-    h.addEventListener('click', toggle);
-    h.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') {e.preventDefault(); toggle.call(h);} });
-    function toggle(){
-      const item = this.parentElement;
-      const open = item.classList.contains('active');
-      document.querySelectorAll('.faq-item').forEach(i=>{
-        i.classList.remove('active');
-        i.querySelector('.faq-head').setAttribute('aria-expanded','false');
-      });
-      if(!open){ item.classList.add('active'); this.setAttribute('aria-expanded','true'); }
-    }
-  });
-
-  /* Watching counter (realistic ranges) */
-  const w = document.getElementById('watching');
-  function updateWatching(){
-    const base = 18, jitter = Math.floor(Math.random()*12)-4; // 14..30
-    w.textContent = Math.max(12, base + jitter);
-  }
-  updateWatching();
-  setInterval(updateWatching, 9000 + Math.random()*6000);
-
-  /* Exit-intent (desktop only, 1 раз в 7 дней) */
-  (function(){
-    if (matchMedia('(max-width: 980px)').matches) return;
-    try{
-      const key='bs_exit_ask';
-      const last = localStorage.getItem(key);
-      if (last && (Date.now()-parseInt(last,10)) < 7*24*60*60*1000) return;
-      let shown = false;
-      const dlg = document.getElementById('exit');
-      document.addEventListener('mouseleave', (e)=>{
-        if (shown || e.clientY>10) return;
-        shown = true;
-        if (dlg && dlg.showModal) dlg.showModal();
-        localStorage.setItem(key, Date.now().toString());
-      });
-    }catch(e){}
-  })();
-
-  /* Bonuses confetti on hover (lightweight particles) */
-  function sprinkle(el){
-    const container = el.querySelector('.confetti');
-    if(!container) return;
-    for(let i=0;i<20;i++){
-      const s = document.createElement('span');
-      const size = 4 + Math.random()*6;
-      s.style.position='absolute';
-      s.style.left = (10+Math.random()*80)+'%';
-      s.style.top = (30+Math.random()*40)+'%';
-      s.style.width = s.style.height = size+'px';
-      s.style.borderRadius = Math.random()>.5?'2px':'999px';
-      s.style.background = ['#FFB199','#B3E5FF','#FFE69C','#C7F9E5'][Math.floor(Math.random()*4)];
-      s.style.opacity = .9;
-      s.style.transform = 'translate(-50%,-50%)';
-      s.style.transition = 'transform .9s ease, opacity .9s ease';
-      container.appendChild(s);
-      requestAnimationFrame(()=>{
-        s.style.transform = `translate(-50%,-120px) rotate(${(Math.random()*120-60)}deg)`;
-        s.style.opacity = 0;
-      });
-      setTimeout(()=>s.remove(), 1000);
-    }
-  }
-  document.querySelectorAll('[data-confetti]').forEach(card=>{
-    card.addEventListener('mouseenter', ()=>sprinkle(card), {passive:true});
-  });
-
-  /* Accessibility: focus styles for keyboard users (optional enhancement) */
-  document.addEventListener('keydown', e=>{
-    if(e.key === 'Tab') document.body.classList.add('kbd');
-  });
-</script>
-</body>
-</html>
