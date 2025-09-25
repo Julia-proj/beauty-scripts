@@ -145,7 +145,7 @@ h3 {
   padding: 160px 0 120px;
   position: relative;
   background: 
-    linear-gradient(180deg, rgba(0,0,0,.72), rgba(0,0,0,.58)),
+    linear-gradient(180deg, rgba(255,245,245,0.6), rgba(255,229,229,0.55)),
     url("/images/hero_final.jpg"),
     url("/images/hero.jpg");
   background-position: center;
@@ -160,7 +160,7 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.3));
+  background: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
 }
 
 .hero .container {
