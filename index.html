@@ -1,125 +1,292 @@
-:root{
-  --bg:#fffdfc;
-  --bg-2:#f9f6fb;
-  --bg-3:#f6f9ff;
-  --text:#202124;
-  --muted:#6b7280;
-  --accent:#ff7a3d;
-  --success:#2fb36d;
-  --gold:#d7b46a;
-  --card:#ffffff;
-  --shadow:0 10px 30px rgba(16,24,40,.08);
-  --radius:16px;
-  --gap:24px;
-  --hero-grad:linear-gradient(135deg,#ffe8ec,#eef0ff);
-  --bonus-grad:linear-gradient(135deg,#ffecec,#f0f3ff);
-}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Скрипты для чатов — Beauty Scripts (19€)</title>
+  <meta name="description" content="Готовые диалоги: от первого сообщения до записи, апсейла и закрытия возражений. Больше записей, выше средний чек, меньше времени на переписку." />
+  <link rel="preload" as="image" href="/images/hero.webp" imagesrcset="/images/hero.webp 1x, /images/hero.jpg 2x" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  <script defer src="/assets/js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к основному контенту</a>
 
-*{box-sizing:border-box}html{-webkit-font-smoothing:antialiased}body{
-  margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Manrope,Arial,sans-serif;color:var(--text);background:var(--bg)
-}
-img{max-width:100%;height:auto;display:block}
-.container{max-width:1120px;margin:0 auto;padding:0 24px}
-.center{text-align:center}.muted{color:var(--muted)}.narrow{max-width:720px;margin:0 auto}
+  <header class="site-header" role="banner">
+    <div class="container header__row">
+      <div class="logo" aria-label="Beauty Scripts">Beauty Scripts</div>
+      <nav class="nav" aria-label="Главная навигация">
+        <a class="nav__link" href="#pricing">Купить</a>
+      </nav>
+      <button class="btn btn--primary shimmer" data-scroll="#pricing">Купить</button>
+    </div>
+    <div class="read-progress" aria-hidden="true"></div>
+  </header>
 
-.skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-.skip-link:focus{left:16px;top:16px;width:auto;height:auto;z-index:10000;background:#000;color:#fff;padding:8px 12px;border-radius:8px}
+  <main id="main">
+    <!-- HERO -->
+    <section id="hero" class="section section--hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container hero__grid">
+        <div class="hero__text reveal">
+          <h1>Скрипты, которые превращают сообщения в деньги</h1>
+          <p class="sub">Готовые диалоги: от первого сообщения до записи, апсейла и закрытия возражений. Результат — больше записей, выше средний чек, меньше времени на переписку.</p>
+          <div class="hero__cta">
+            <button class="btn btn--primary btn--lg shimmer" data-scroll="#pricing">Купить</button>
+            <p class="meta">Доступ сразу <span class="pay-icons" aria-hidden="true">
+              <!-- Показать логотипы только если реально включены методы оплаты -->
+              <!-- <img src="/images/icons/applepay.svg" alt=""> <img src="/images/icons/gpay.svg" alt=""> -->
+            </span></p>
+          </div>
+        </div>
+        <div class="hero__visual parallax" data-parallax="12">
+          <img src="/images/hero.jpg" width="960" height="720" alt="Переписка с клиентом: быстрые готовые ответы" loading="eager" decoding="async">
+        </div>
+      </div>
+    </section>
 
-.site-header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-bottom:1px solid #eee}
-.header__row{display:flex;align-items:center;justify-content:space-between;min-height:64px}
-.logo{font-weight:800}
-.nav__link{color:var(--text);text-decoration:none;margin-right:16px}
-.read-progress{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--accent)}
+    <!-- COMPARE -->
+    <section id="compare" class="section">
+      <div class="container">
+        <h2 class="h2 center">Без скриптов <span class="muted">vs</span> Со скриптами</h2>
+        <div class="cards cards--2">
+          <article class="card card--soft reveal" aria-label="Без скриптов">
+            <h3 class="h3">Без скриптов</h3>
+            <ul class="list">
+              <li>Клиент пишет «Сколько стоит?» — отвечаете цену — тишина</li>
+              <li>На «я подумаю» нет следующего шага</li>
+              <li>Переписка тянется, клиент остывает</li>
+              <li>Из 10 заявок записывается 2–3</li>
+            </ul>
+          </article>
+          <article class="card card--soft good reveal" aria-label="Со скриптами">
+            <h3 class="h3">Со скриптами</h3>
+            <ul class="list">
+              <li>На любой вопрос — готовый ответ</li>
+              <li>Возражения закрываются мягко и без давления</li>
+              <li>До записи — за 3–5 сообщений</li>
+              <li>Из 10 заявок записывается 6–7</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
 
-.section{padding:72px 0}
-.section--hero{padding:96px 0 72px;position:relative;overflow:hidden}
-.hero__bg{position:absolute;inset:-30% -10% auto -10%;height:60%;background:var(--hero-grad);filter:saturate(110%);border-radius:50%;transform:skewY(-6deg)}
-.hero__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
-.hero__text h1{font-size:clamp(36px,4.5vw,48px);line-height:1.1;margin:0 0 16px}
-.sub{font-size:18px;color:var(--muted);margin:0 0 24px}
-.hero__cta{display:flex;flex-direction:column;gap:8px}
-.meta{font-size:14px;color:var(--muted)}
+    <!-- WHY -->
+    <section id="why" class="section section--powder">
+      <div class="container">
+        <h2 class="h2 center">Почему это важно</h2>
+        <ul class="features features--3">
+          <li class="feature reveal">
+            <img class="ico" src="/images/icons/money.svg" alt="" aria-hidden="true">
+            <span class="sr-only">Деньги</span>
+            <p>Сливаются деньги на рекламу</p>
+          </li>
+          <li class="feature reveal">
+            <img class="ico" src="/images/icons/time.svg" alt="" aria-hidden="true">
+            <span class="sr-only">Время</span>
+            <p>Тратится время впустую</p>
+          </li>
+          <li class="feature reveal">
+            <img class="ico" src="/images/icons/exit.svg" alt="" aria-hidden="true">
+            <span class="sr-only">Уход</span>
+            <p>Заявки уходят к конкуренту и теряется прибыль</p>
+          </li>
+        </ul>
+      </div>
+    </section>
 
-.cards{display:grid;gap:24px}
-.cards--2{grid-template-columns:repeat(2,1fr)}
-.cards--3{grid-template-columns:repeat(3,1fr)}
-.cards--4{grid-template-columns:repeat(4,1fr)}
-.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
-.card--soft{background:#fff}
-.card--bonus{background:#fff;border:1px solid #f0e9ff}
-.good{outline:2px solid rgba(47,179,109,.18)}
-.h2{font-size:clamp(28px,3.2vw,32px);line-height:1.2;margin:0 0 16px}
-.h3{font-size:22px;margin:0 0 8px}
-.h4{font-size:18px;margin:0 0 4px}
-.list{padding-left:18px}.list li{margin:8px 0}
+    <!-- WHO -->
+    <section id="who" class="section">
+      <div class="container">
+        <h2 class="h2 center">Кому подходят скрипты</h2>
+        <div class="cards cards--4">
+          <article class="card reveal">
+            <img class="ico" src="/images/icons/scissors.svg" alt="" aria-hidden="true">
+            <h3 class="h4">Владельцам салонов и студий</h3>
+            <p>Стандарт ответов, скорость и контроль: все отвечают одинаково сильно.</p>
+          </article>
+          <article class="card reveal">
+            <img class="ico" src="/images/icons/medical.svg" alt="" aria-hidden="true">
+            <h3 class="h4">Медицинским центрам</h3>
+            <p>Админы закрывают заявки, врачи работают с реальными пациентами.</p>
+          </article>
+          <article class="card reveal">
+            <img class="ico" src="/images/icons/group.svg" alt="" aria-hidden="true">
+            <h3 class="h4">Мастерам-универсалам</h3>
+            <p>Ответы на все типовые ситуации — быстрее к записи, увереннее в чате.</p>
+          </article>
+          <article class="card reveal">
+            <img class="ico" src="/images/icons/person.svg" alt="" aria-hidden="true">
+            <h3 class="h4">Узким специалистам</h3>
+            <p>Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки под услугу.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-.section--powder{background:var(--bg-2)}
-.section--powder-blue{background:var(--bg-3)}
-.section--dark{background:#0f1320;color:#fff;text-align:center}
+    <!-- SYSTEM -->
+    <section id="system" class="section section--powder-blue">
+      <div class="container">
+        <h2 class="h2 center">Что получаете в системе</h2>
+        <div class="cards cards--3">
+          <article class="card reveal">
+            <img class="ico" src="/images/icons/chat.svg" alt="" aria-hidden="true">
+            <h3 class="h4">Готовые диалоги</h3>
+            <p>Приветствие, цены, запись, напоминания, апсейл — копируй и вставляй.</p>
+          </article>
+          <article class="card reveal">
+            <img class="ico" src="/images/icons/shield.svg" alt="" aria-hidden="true">
+            <h3 class="h4">Ответы на возражения</h3>
+            <p>«Дорого», «далеко», «подумаю» — живые формулировки без давления.</p>
+          </article>
+          <article class="card reveal">
+            <img class="ico" src="/images/icons/rocket.svg" alt="" aria-hidden="true">
+            <h3 class="h4">Под услуги</h3>
+            <p>Ногти, брови, ресницы, волосы, косметология, перманент — готовые блоки.</p>
+          </article>
+          <article class="card reveal">
+            <img class="ico" src="/images/icons/return.svg" alt="" aria-hidden="true">
+            <h3 class="h4">Возврат «молчунов»</h3>
+            <p>Сценарии для повторных записей и возврата «остывших» лидов.</p>
+          </article>
+          <article class="card reveal">
+            <img class="ico" src="/images/icons/book.svg" alt="" aria-hidden="true">
+            <h3 class="h4">Гайд внедрения</h3>
+            <p>Старт за 1 день — пошаговый план + стандарты для команды.</p>
+          </article>
+          <article class="card reveal">
+            <img class="ico ico--green" src="/images/icons/check.svg" alt="" aria-hidden="true">
+            <h3 class="h4">Итог</h3>
+            <p>Больше записей, выше средний чек, меньше времени в переписке.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
-.features--3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;list-style:none;padding:0;margin:24px 0 0}
-.feature{display:flex;gap:12px;align-items:flex-start;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
-.ico{width:28px;height:28px;opacity:.9}
-.ico--green{filter:hue-rotate(90deg) saturate(140%)}
+    <!-- CONVERT -->
+    <section id="convert" class="section section--dark">
+      <div class="container narrow center">
+        <h2 class="h2">Хватит терять деньги из-за неправильных слов</h2>
+        <p class="sub">Внедри скрипты моментально и начни получать больше записей уже сегодня</p>
+        <button class="btn btn--primary btn--lg shimmer" data-scroll="#pricing">Купить</button>
+        <p class="meta">Доступ сразу<!-- + логотипы оплаты, если реально подключены --></p>
+      </div>
+    </section>
 
-.tick{list-style:none;padding:0;margin:16px auto;max-width:760px}
-.tick li{position:relative;padding-left:30px;margin:10px 0}
-.tick li::before{content:"";position:absolute;left:0;top:7px;width:18px;height:18px;mask:url('/images/icons/check.svg') no-repeat 50% 50%/contain;background:var(--success)}
+    <!-- BONUSES -->
+    <section id="bonuses" class="section section--bonus">
+      <canvas class="confetti" aria-hidden="true"></canvas>
+      <div class="container">
+        <h2 class="h2 center">Бонусы при покупке 🎉</h2>
+        <p class="center muted">Суммарная ценность — 79€. Сегодня идут бесплатно со скриптами.</p>
+        <div class="cards cards--3">
+          <article class="card card--bonus reveal">
+            <h3 class="h4">Гайд: база и повторные записи</h3>
+            <p>Работа с клиентской базой — повторные записи без рекламы.</p>
+            <div class="price-line"><span class="old">27€</span><span class="now">0€</span></div>
+          </article>
+          <article class="card card--bonus reveal">
+            <h3 class="h4">Чек-лист: откуда взять заявки</h3>
+            <p>Платные и бесплатные способы — где взять заявки сегодня.</p>
+            <div class="price-line"><span class="old">32€</span><span class="now">0€</span></div>
+          </article>
+          <article class="card card--bonus reveal">
+            <h3 class="h4">Гайд: 5 этапов продаж</h3>
+            <p>5 этапов продаж на консультации — мягкий апсейл доп.услуг.</p>
+            <div class="price-line"><span class="old">20€</span><span class="now">0€</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-.section--bonus{position:relative;background:var(--bonus-grad);overflow:hidden}
-.confetti{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+    <!-- CHANGES -->
+    <section id="changes" class="section">
+      <div class="container">
+        <h2 class="h2 center">Что изменится сразу</h2>
+        <ul class="tick">
+          <li>Перестанешь терять заявки из-за слабых ответов.</li>
+          <li>Начнёшь закрывать больше записей уже с первого дня.</li>
+          <li>Повысишь средний чек через правильные предложения.</li>
+          <li>Станешь увереннее — на всё есть готовый ответ.</li>
+        </ul>
+      </div>
+    </section>
 
-.price{max-width:620px;margin:8px auto;padding:28px 24px;text-align:center}
-.amount{display:flex;justify-content:center;align-items:baseline;gap:8px;margin:8px 0 12px}
-.amount .eur{font-size:56px;font-weight:800;letter-spacing:-.02em}
-.price .note{font-size:13px;color:var(--muted)}
-.price .glow{box-shadow:0 0 0 0 rgba(215,180,106,.0)}
-.glow{animation:gold-glow 3s ease-in-out infinite}
-@keyframes gold-glow{
-  0%,100%{box-shadow:0 0 0 0 rgba(215,180,106,.0)}
-  50%{box-shadow:0 0 28px 0 rgba(215,180,106,.45)}
-}
+    <!-- PRICING -->
+    <section id="pricing" class="section section--powder">
+      <div class="container">
+        <h2 class="h2 center">Полный пакет</h2>
+        <article class="price card glow reveal">
+          <h3 class="h3">Полный пакет + 3 бонуса</h3>
+          <div class="amount">
+            <span class="eur">19€</span>
+          </div>
+          <p class="muted">Все скрипты + персонализация + бонусы</p>
+          <button class="btn btn--primary btn--lg shimmer" id="buy-btn">Купить</button>
+          <p class="meta">Доступ сразу</p>
+          <p class="note">Доступ к материалам моментально после оплаты</p>
+        </article>
+      </div>
+    </section>
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:12px 20px;font-weight:700;cursor:pointer}
-.btn--primary{background:var(--accent);color:#fff}
-.btn--lg{padding:16px 28px;font-size:18px}
-.btn:focus-visible{outline:3px solid #0002;outline-offset:3px}
-.shimmer{position:relative;overflow:hidden}
-.shimmer::after{content:"";position:absolute;inset:0;translate:-120% 0;transform:skewX(-20deg);width:60%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:shimmer 4s infinite}
-@keyframes shimmer{0%{translate:-120% 0}60%{translate:140% 0}100%{translate:140% 0}}
+    <!-- FAQ -->
+    <section id="faq" class="section section--powder-blue">
+      <div class="container">
+        <h2 class="h2 center">FAQ</h2>
+        <details class="faq" open>
+          <summary>Сработает в моей нише?</summary>
+          <p>Да. База универсальная + блоки под ногти/брови/ресницы/волосы/косметологию/перманент.</p>
+        </details>
+        <details class="faq">
+          <summary>Не будет ли звучать “по-скриптовому”?</summary>
+          <p>Нет. Формулировки живые, адаптируешь под свой тон. Главное — следовать алгоритму.</p>
+        </details>
+        <details class="faq">
+          <summary>Зачем это админам?</summary>
+          <p>Единый стандарт повышает конверсию, скорость и управляемость. Новички включаются быстрее.</p>
+        </details>
+        <details class="faq">
+          <summary>Когда будут результаты?</summary>
+          <p>Часто — в первые 24 часа: готовые фразы экономят время и быстрее ведут к записи.</p>
+        </details>
+      </div>
+    </section>
+  </main>
 
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
-.reveal.is-visible{opacity:1;transform:none}
-.parallax{will-change:transform}
+  <!-- Sticky CTA -->
+  <div class="sticky-cta" role="region" aria-label="Фиксированная покупка">
+    <div class="sticky-cta__inner">
+      <span>Готовые скрипты — 19€</span>
+      <button class="btn btn--primary shimmer" data-scroll="#pricing">Купить сейчас</button>
+    </div>
+  </div>
 
-.faq{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:16px;margin:12px 0}
-.faq>summary{cursor:pointer;font-weight:600}
-.faq[open]{outline:1px dashed #e6e6f6}
+  <!-- Exit-intent modal -->
+  <div class="modal" id="exit-modal" role="dialog" aria-modal="true" aria-labelledby="exit-title" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__dialog" role="document">
+      <button class="modal__close" aria-label="Закрыть" data-close>×</button>
+      <h3 id="exit-title">-10% сегодня</h3>
+      <p>Забери систему сейчас и начни отвечать сильнее уже сегодня.</p>
+      <button class="btn btn--primary" data-scroll="#pricing" data-close>К купить</button>
+    </div>
+  </div>
 
-.sticky-cta{position:sticky;bottom:0;z-index:1000;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-top:1px solid #eee}
-.sticky-cta__inner{display:flex;gap:16px;align-items:center;justify-content:space-between;max-width:1120px;margin:0 auto;padding:10px 16px}
-
-.modal[hidden]{display:none}
-.modal{position:fixed;inset:0;z-index:2000}
-.modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.4)}
-.modal__dialog{position:relative;z-index:1;max-width:420px;margin:10vh auto;background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:24px}
-.modal__close{position:absolute;top:8px;right:8px;border:0;background:transparent;font-size:24px;cursor:pointer}
-
-@media (max-width:960px){
-  .hero__grid{grid-template-columns:1fr}
-  .cards--4{grid-template-columns:repeat(2,1fr)}
-  .cards--3{grid-template-columns:repeat(2,1fr)}
-}
-@media (max-width:640px){
-  .cards--4,.cards--3,.cards--2{grid-template-columns:1fr}
-  .sticky-cta__inner{flex-direction:column;align-items:stretch}
-  .amount .eur{font-size:44px}
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .shimmer::after,.glow{animation:none}
-  .reveal{transition:none}
-}
-
+  <!-- JSON-LD Product -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Product",
+    "name":"Beauty Scripts — система скриптов",
+    "description":"Готовые диалоги для чатов: от первого сообщения до записи.",
+    "offers":{
+      "@type":"Offer",
+      "price":"19",
+      "priceCurrency":"EUR",
+      "availability":"https://schema.org/InStock"
+    }
+  }
+  </script>
+</body>
+</html>
